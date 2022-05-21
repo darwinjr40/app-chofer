@@ -1,11 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:micros_app/data/blocs/blocs.dart';
 import 'package:micros_app/business/router/app_routes.dart';
 import 'package:micros_app/data/services/services.dart';
 
 void main() {
-  runApp(const AppState());
+  runApp(
+    // ! Declaro los Bloc que se pueden usar en toda la app
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => GpsBloc()),
+        BlocProvider(create: (context) => LocationBloc()),
+        BlocProvider(
+            create: (context) =>
+                MapBloc(locationBloc: BlocProvider.of<LocationBloc>(context))),
+      ],
+      child: const AppState(),
+    ),
+  );
 }
 
 // ! Aqui declaro los providers para que esten lo mas alto del arbol de widgets

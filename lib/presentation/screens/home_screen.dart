@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:micros_app/data/services/services.dart';
+import 'package:micros_app/presentation/widgets/widgets.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -27,8 +28,41 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: const Center(
-        child: Text("Home Screen en construccion"),
+      body: Container(
+        padding: const EdgeInsets.symmetric(
+          vertical: 50,
+          horizontal: 20,
+        ),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                Text('4589VKU'),
+                SizedBox(width: 50),
+                Text('Linea 53'),
+              ],
+            ),
+            const SizedBox(height: 30),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: const [
+                Text('Longitud: '),
+                SizedBox(width: 30),
+                Text('00000000000000'),
+              ],
+            ),
+            const SizedBox(height: 30),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: const [
+                Text('Latitud: '),
+                SizedBox(width: 30),
+                Text('00000000000000'),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
