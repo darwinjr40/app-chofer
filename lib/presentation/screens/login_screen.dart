@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import 'package:micros_app/data/services/services.dart';
 import 'package:micros_app/presentation/widgets/widgets.dart';
+import 'package:micros_app/presentation/helpers/mostrar_alerta.dart';
 import 'package:micros_app/business/providers/providers.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -62,6 +63,10 @@ class _LoginFormState extends State<_LoginForm> {
   @override
   Widget build(BuildContext context) {
     final loginForm = Provider.of<LoginFormProvider>(context);
+    TextEditingController _emailController =
+        TextEditingController(text: 'admin@gmail.com');
+    TextEditingController _passwordController =
+        TextEditingController(text: '00000000');
     return Form(
       key: loginForm.formKey,
       autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -72,6 +77,7 @@ class _LoginFormState extends State<_LoginForm> {
             enabled: loginForm.isLoading ? false : true,
             autocorrect: false,
             keyboardType: TextInputType.emailAddress,
+            controller: _emailController,
             decoration: InputDecoration(
               enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: mainColor),
@@ -107,6 +113,7 @@ class _LoginFormState extends State<_LoginForm> {
             enabled: loginForm.isLoading ? false : true,
             autocorrect: false,
             obscureText: _passwordVisible,
+            controller: _passwordController,
             decoration: InputDecoration(
               enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: mainColor),
@@ -169,9 +176,14 @@ class _LoginFormState extends State<_LoginForm> {
                         loginForm.email, loginForm.password);
 
                     if (errorMessage == null) {
-                      Navigator.pushReplacementNamed(context, 'home');
+                      //*Navegar a otra pantalla
+                      // Navigator.pushReplacementNamed(context, 'home');
+                      Navigator.pushReplacementNamed(context, 'selectBus');
                     } else {
-                      NotificationsService.showSnackbar(errorMessage);
+                      //*Mostrar mensaje de Error
+                      mostrarAlerta(context, 'Login incorrecto',
+                          'revise sus credenciales');
+                      // NotificationsService.showSnackbar(errorMessage);
                       loginForm.isLoading = false;
                     }
                   },

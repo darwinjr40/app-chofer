@@ -11,12 +11,12 @@ class AuthService extends ChangeNotifier {
   //DanielU Patch
   final String _baseUrl = "admin.andresmontano.website";
   final storage = const FlutterSecureStorage();
-
   Future<String?> login(String email, String password) async {
     final url = Uri.https(
         _baseUrl, 'api/logIn', {'usr_id': email, 'usr_pass': password});
     final resp = await http.get(url);
     final Map<String, dynamic> decodedResp = json.decode(resp.body);
+    return null;
     if (decodedResp.containsKey('usr_id')) {
       await storage.write(key: 'userId', value: decodedResp['usr_id']);
       return null;
