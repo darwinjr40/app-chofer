@@ -27,7 +27,7 @@ class SelectVehicleScreen extends StatelessWidget {
         itemCount: vehicleServices.listaVehicles.length,
         itemBuilder: (context, index) => ListTile(
           title: Text(
-              'Linea ${vehicleServices.listaVehicles[index].id}',
+              'Vehiculo ${vehicleServices.listaVehicles[index].id}',
               style: const TextStyle(color: Colors.black)),
           subtitle: Text('Placa ${vehicleServices.listaVehicles[index].plate}'),
           leading: const Icon(
