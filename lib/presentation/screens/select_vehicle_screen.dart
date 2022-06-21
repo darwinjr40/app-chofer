@@ -3,29 +3,35 @@ import 'package:micros_app/data/services/services.dart';
 import 'package:micros_app/presentation/screens/screens.dart';
 import 'package:provider/provider.dart';
 
-class SelectBusScreen extends StatelessWidget {
-  const SelectBusScreen({Key? key}) : super(key: key);
+class SelectVehicleScreen extends StatelessWidget {
+  const SelectVehicleScreen({Key? key, }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final busServices = Provider.of<BusService>(context);
-    // if (busServices.isLoading) {
-    //   print("Loading");
-    //   // return const LoadingScreen();
-    // }
+    final vehicleServices = Provider.of<VehicleService>(context);
+    // print(i);
+    // // print(vehicleServices.listaVehicles[0].id.toString());
+    // print('primer vehculo');\
+    vehicleServices.loadVehicle(1);
+    if (vehicleServices.isLoading) {
+      print("Loading");
+      // return const LoadingScreen();
+    }
     return Scaffold(
       appBar: AppBar(
-        title: const Center(child: Text("Lista de Buses")),
+        title: const Center(child: Text("Lista de Vehiculos")),
         backgroundColor: Colors.black,
         elevation: 0,
       ),
       body: ListView.builder(
         // reverse: true,
         // separatorBuilder: (_, __) => const Divider(height: 30),
-        itemCount: busServices.listaBuses.length,
+        itemCount: vehicleServices.listaVehicles.length,
         itemBuilder: (context, index) => ListTile(
-          title: Text('Linea ${busServices.listaBuses[index].id.toString()}',
+          title: Text(
+              'Linea ${vehicleServices.listaVehicles[index].id.toString()}',
               style: const TextStyle(color: Colors.black)),
+          subtitle: Text('Placa ${vehicleServices.listaVehicles[index].plate}'),
           leading: const Icon(
             Icons.directions_bus_outlined,
             color: Colors.black,
@@ -35,9 +41,8 @@ class SelectBusScreen extends StatelessWidget {
             color: Colors.black,
           ),
           onTap: () => {
-            busServices.selectedBus = busServices.listaBuses[index],
-            print(busServices.selectedBus.id.toString()),
-            Navigator.pushNamed(context, 'selectVehicle', arguments: busServices.selectedBus),
+            // vehicleServices.selectedBus = vehicleServices.listaVehicles[index],
+            print(vehicleServices.selectedVehicle.id.toString()),
           },
         ),
       ),

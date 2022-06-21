@@ -1,52 +1,55 @@
+// To parse this JSON data, do
+//
+//     final bus = busFromMap(jsonString);
 import 'dart:convert';
-
-List<Bus> busFromJson(String str) => List<Bus>.from(json.decode(str).map((x) => Bus.fromJson(x)));
-
-String busToJson(List<Bus> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class Bus {
     Bus({
-        this.id,
-        this.email,
-        this.firstName,
-        this.lastName,
-        this.avatar,
+        required this.id,
+        required this.color,
+        required this.name,
+        required this.photo,
+        required this.status,
+        required this.createdAt,
+        required this.updatedAt,
     });
 
-    int? id;
-    String? email;
-    String? firstName;
-    String? lastName;
-    String? avatar;
+    int id;
+    String color;
+    String name;
+    dynamic photo;
+    int status;
+    dynamic createdAt;
+    dynamic updatedAt;
 
-    Bus copyWith({
-        int? id,
-        String? email,
-        String? firstName,
-        String? lastName,
-        String? avatar,
-    }) => 
-        Bus(
-            id: id ?? this.id,
-            email: email ?? this.email,
-            firstName: firstName ?? this.firstName,
-            lastName: lastName ?? this.lastName,
-            avatar: avatar ?? this.avatar,
-        );
+    factory Bus.fromJson(String str) => Bus.fromMap(json.decode(str));
 
-    factory Bus.fromJson(Map<String, dynamic> json) => Bus(
+    String toJson() => json.encode(toMap());
+
+    factory Bus.fromMap(Map<String, dynamic> json) => Bus(
         id: json["id"],
-        email: json["email"],
-        firstName: json["first_name"],
-        lastName: json["last_name"],
-        avatar: json["avatar"],
+        color: json["color"],
+        name: json["name"],
+        photo: json["photo"],
+        status: json["status"],
+        createdAt: json["created_at"],
+        updatedAt: json["updated_at"],
     );
 
-    Map<String, dynamic> toJson() => {
+    Map<String, dynamic> toMap() => {
         "id": id,
-        "email": email,
-        "first_name": firstName,
-        "last_name": lastName,
-        "avatar": avatar,
+        "color": color,
+        "name": name,
+        "photo": photo,
+        "status": status,
+        "created_at": createdAt,
+        "updated_at": updatedAt,
     };
+
+    @override
+    String toString() {
+    // TODO: implement toString
+    return super.toString();
+  }
+
 }
