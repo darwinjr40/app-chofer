@@ -14,9 +14,10 @@ class HomeScreen extends StatelessWidget {
     final authService = Provider.of<AuthService>(context, listen: false);
     final busService = Provider.of<BusService>(context, listen: false);
     final vehicleService = Provider.of<VehicleService>(context, listen: false);
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home Screen'),
+        title: Text('User: ${authService.user.name}'),
         backgroundColor: const Color.fromARGB(255, 12, 17, 156),
         centerTitle: true,
         actions: [

@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
-// import 'package:micros_app/data/models/models.dart';
+import 'package:micros_app/data/models/user_model.dart';
 
 // ! por ahora va a estar referenciado a uno de mis proyectos que tengo arriba
 // ! cuando este la api de login lista lo cambio
@@ -12,6 +12,7 @@ class AuthService extends ChangeNotifier {
   //DanielU Patch
   // final String _baseUrl = "admin.andresmontano.website";
   final String _baseUrl = "https://supportficct.ga/sig_backend/public/api";
+  late User user;
   final storage = const FlutterSecureStorage();
   // final Set<Bus> listBus = {};
 
@@ -27,7 +28,11 @@ class AuthService extends ChangeNotifier {
     final Map<String, dynamic> decodedResp = json.decode(resp.body);
     if (decodedResp.containsKey('buses')) {
       // await storage.write(key: 'userId', value: decodedResp['usr_id']);
-      await storage.write(key: 'userId', value: decodedResp['data']['id'].toString());
+      user = User.fromJson(decodedResp['data']);
+      await storage.write(
+          key: 'userId', value: decodedResp['data']['id'].toString());
+      await storage.write(
+          key: 'name', value: decodedResp['data']['name'].toString());
       return null;
     } else {
       // return decodedResp['message'];
