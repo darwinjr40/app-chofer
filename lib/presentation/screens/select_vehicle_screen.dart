@@ -1,7 +1,7 @@
+
 import 'package:flutter/material.dart';
 import 'package:micros_app/data/services/services.dart';
 import 'package:micros_app/env.dart';
-import 'package:micros_app/presentation/screens/screens.dart';
 import 'package:provider/provider.dart';
 
 class SelectVehicleScreen extends StatelessWidget {
@@ -12,9 +12,6 @@ class SelectVehicleScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final vehicleServices = Provider.of<VehicleService>(context);
-
-    print('primer vehiculo');
-
     return Scaffold(
       appBar: AppBar(
         title: const Center(child: Text("Lista de Vehiculos")),
@@ -39,8 +36,9 @@ class SelectVehicleScreen extends StatelessWidget {
             color: Colors.black,
           ),
           onTap: () => {
-            // vehicleServices.selectedBus = vehicleServices.listaVehicles[index],
-            print(vehicleServices.listaVehicles[index].id.toString()),
+            vehicleServices.selectedVehicle = vehicleServices.listaVehicles[index],
+            Navigator.pushReplacementNamed(context, 'home'),            
+            // print(vehicleServices.listaVehicles[index].id.toString()),
           },
         ),
       ),

@@ -39,7 +39,7 @@ class SelectBusScreen extends StatelessWidget {
           ),
           onTap: () => {
             busServices.selectedBus = busServices.listaBuses[index],
-            print(busServices.selectedBus.id.toString()),
+            // print(busServices.selectedBus.id.toString()),
             vehicleServices.loadVehicle(busServices.selectedBus.id),
             if (vehicleServices.isLoading)  const LoadingScreen(),
             Navigator.pushNamed(context, 'selectVehicle', arguments: busServices.selectedBus.id),

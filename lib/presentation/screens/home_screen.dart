@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:micros_app/data/services/services.dart';
-import 'package:micros_app/presentation/widgets/widgets.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -13,6 +12,8 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context, listen: false);
+    final busService = Provider.of<BusService>(context, listen: false);
+    final vehicleService = Provider.of<VehicleService>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home Screen'),
@@ -37,10 +38,11 @@ class HomeScreen extends StatelessWidget {
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Text('4589VKU'),
-                SizedBox(width: 50),
-                Text('Linea 53'),
+              children: [
+                // Text('4589VKU'),
+                Text('Placa: ${vehicleService.selectedVehicle.plate}'),
+                const SizedBox(width: 50),
+                Text('Linea: ${busService.selectedBus.id}'),
               ],
             ),
             const SizedBox(height: 30),
