@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:micros_app/env.dart';
 import 'package:micros_app/presentation/widgets/widgets.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -30,18 +31,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
     Size size = MediaQuery.of(context).size;
     size = const Size(10, 20);
     return Scaffold(
+      appBar: AppBar(
+        title:  const Text("Registrarse", style: TextStyle(fontWeight: FontWeight.bold)),
+        backgroundColor: primaryColor,
+      ),
       body: Background(
         child: SingleChildScrollView(
           child: Form(
               child: Column(
             children: [
-              SizedBox(height: size.height * 0.075),
-              const Text(
-                "REGISTRARSE",
-                style: TextStyle(fontWeight: FontWeight.bold),
-                
-              ),
-              SizedBox(height: size.height * 0.05),
+              SizedBox(height: size.height * 0.5),
               SizedBox(
                   height: size.height* 5,
                   child: Image.asset(

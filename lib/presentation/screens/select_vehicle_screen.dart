@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:micros_app/data/services/services.dart';
+import 'package:micros_app/env.dart';
 import 'package:micros_app/presentation/screens/screens.dart';
 import 'package:provider/provider.dart';
 
@@ -11,13 +12,13 @@ class SelectVehicleScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final vehicleServices = Provider.of<VehicleService>(context);
-    
+
     print('primer vehiculo');
 
     return Scaffold(
       appBar: AppBar(
         title: const Center(child: Text("Lista de Vehiculos")),
-        backgroundColor: Colors.black,
+        backgroundColor: primaryColor,
         elevation: 0,
       ),
       // body: Text('nisaadasdasdsd'),
@@ -26,8 +27,7 @@ class SelectVehicleScreen extends StatelessWidget {
         // separatorBuilder: (_, __) => const Divider(height: 30),
         itemCount: vehicleServices.listaVehicles.length,
         itemBuilder: (context, index) => ListTile(
-          title: Text(
-              'Vehiculo ${vehicleServices.listaVehicles[index].id}',
+          title: Text('Vehiculo ${vehicleServices.listaVehicles[index].id}',
               style: const TextStyle(color: Colors.black)),
           subtitle: Text('Placa ${vehicleServices.listaVehicles[index].plate}'),
           leading: const Icon(

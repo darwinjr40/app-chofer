@@ -4,7 +4,7 @@ import 'package:micros_app/data/models/models.dart';
 import 'package:micros_app/presentation/screens/screens.dart';
 
 class AppRoutes {
-  static const initialRoute = 'register';
+  static const initialRoute = 'login';
   static final menuOptions = <MenuOption>[
     MenuOption(
       route: 'home',

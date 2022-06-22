@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:micros_app/data/services/services.dart';
 import 'package:micros_app/presentation/screens/screens.dart';
 import 'package:provider/provider.dart';
+import 'package:micros_app/env.dart';
 
 class SelectBusScreen extends StatelessWidget {
   const SelectBusScreen({Key? key}) : super(key: key);
@@ -18,7 +19,7 @@ class SelectBusScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Center(child: Text("Lista de Buses")),
-        backgroundColor: Colors.black,
+        backgroundColor: primaryColor,
         elevation: 0,
       ),
       body: ListView.builder(

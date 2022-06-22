@@ -10,21 +10,28 @@ import 'package:http/http.dart' as http;
 
 class AuthService extends ChangeNotifier {
   //DanielU Patch
-  final String _baseUrl = "admin.andresmontano.website";
+  // final String _baseUrl = "admin.andresmontano.website";
+  final String _baseUrl = "https://supportficct.ga/sig_backend/public/api";
   final storage = const FlutterSecureStorage();
   // final Set<Bus> listBus = {};
 
   Future<String?> login(String email, String password) async {
-    final url = Uri.https(
-        _baseUrl, 'api/logIn', {'usr_id': email, 'usr_pass': password});
-    final resp = await http.get(url);
+    // final url = Uri.https(
+    //     _baseUrl, 'api/logIn', {'usr_id': email, 'usr_pass': password});
+    // final resp = await http.get(url);
+    final resp = await http.post(Uri.parse('$_baseUrl/auth/login'),
+        body: ({
+          'email': email,
+          'password': password,
+        }));
     final Map<String, dynamic> decodedResp = json.decode(resp.body);
-    return null;
-    if (decodedResp.containsKey('usr_id')) {
-      await storage.write(key: 'userId', value: decodedResp['usr_id']);
+    if (decodedResp.containsKey('buses')) {
+      // await storage.write(key: 'userId', value: decodedResp['usr_id']);
+      await storage.write(key: 'userId', value: decodedResp['data']['id'].toString());
       return null;
     } else {
-      return decodedResp['message'];
+      // return decodedResp['message'];
+      return 'revise sus credenciales';
     }
   }
 
@@ -36,7 +43,4 @@ class AuthService extends ChangeNotifier {
   Future<String> isLoged() async {
     return await storage.read(key: 'userId') ?? '';
   }
-
-
-  
 }
