@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:micros_app/presentation/widgets/card_container.dart';
 import 'package:provider/provider.dart';
 
 import 'package:micros_app/data/services/services.dart';
@@ -11,6 +12,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _textController = TextEditingController();
+
     final authService = Provider.of<AuthService>(context, listen: false);
     final busService = Provider.of<BusService>(context, listen: false);
     final vehicleService = Provider.of<VehicleService>(context, listen: false);
@@ -24,8 +27,50 @@ class HomeScreen extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.logout_outlined),
             onPressed: () {
-              authService.loguot();
-              Navigator.pushReplacementNamed(context, 'login');
+              showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (context) => AlertDialog(
+                        title: const Text('TERMINAR VIAJE'),
+                        content: SizedBox(
+                          width: 230,
+                          height: 200,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              const Text(
+                                  'Describa por que desea terminar el viaje'),
+                              TextField(
+                                controller: _textController,
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(0.0))),
+                                ),
+                                onSubmitted: (value) {},
+                              ),
+                            ],
+                          ),
+                        ),
+                        actions: [
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('cancelar'),
+                          ),
+                          TextButton(
+                            onPressed: //_textController.text.isNotEmpty
+                                // ?
+                                () {
+                              authService.loguot();
+                              Navigator.pushReplacementNamed(context, 'login');
+                            },
+                            // : null,
+                            child: const Text('ENVIAR'),
+                          ),
+                        ],
+                      ));
             },
           ),
         ],
