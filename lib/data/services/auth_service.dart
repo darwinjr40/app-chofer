@@ -26,13 +26,13 @@ class AuthService extends ChangeNotifier {
           'password': password,
         }));
     final Map<String, dynamic> decodedResp = json.decode(resp.body);
-    if (decodedResp.containsKey('buses')) {
+    if (decodedResp.containsKey('user')) {
       // await storage.write(key: 'userId', value: decodedResp['usr_id']);
-      user = User.fromJson(decodedResp['data']);
+      user = User.fromJson(decodedResp['user']);
       await storage.write(
-          key: 'userId', value: decodedResp['data']['id'].toString());
+          key: 'userId', value: decodedResp['user']['id'].toString());
       await storage.write(
-          key: 'name', value: decodedResp['data']['name'].toString());
+          key: 'name', value: decodedResp['user']['name'].toString());
       return null;
     } else {
       // return decodedResp['message'];
