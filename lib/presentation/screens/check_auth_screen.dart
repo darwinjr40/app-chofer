@@ -31,7 +31,7 @@ class CheckAuthScreen extends StatelessWidget {
                 Navigator.pushReplacement(
                   context,
                   PageRouteBuilder(
-                    pageBuilder: (_, __, ___) => const GpsAccessScreen(),
+                    pageBuilder: (_, __, ___) => const SelectBusScreen(),
                     transitionDuration: const Duration(seconds: 0),
                   ),
                 );

@@ -34,33 +34,11 @@ class HomeScreen extends StatelessWidget {
           horizontal: 20,
         ),
         child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Text('4589VKU'),
-                SizedBox(width: 50),
-                Text('Linea 53'),
-              ],
-            ),
-            const SizedBox(height: 30),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: const [
-                Text('Longitud: '),
-                SizedBox(width: 30),
-                Text('00000000000000'),
-              ],
-            ),
-            const SizedBox(height: 30),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: const [
-                Text('Latitud: '),
-                SizedBox(width: 30),
-                Text('00000000000000'),
-              ],
-            ),
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Text('Linea: v16'),
+            Text('Micro: v03'),
+            Text('Chofer: vDarwin'),
           ],
         ),
       ),
