@@ -4,8 +4,7 @@ import 'package:micros_app/data/models/models.dart';
 import 'package:micros_app/presentation/screens/screens.dart';
 
 class AppRoutes {
-  static const initialRoute = 'loading';
-
+  static const initialRoute = 'login';
   static final menuOptions = <MenuOption>[
     MenuOption(
       route: 'home',
@@ -39,6 +38,13 @@ class AppRoutes {
     for (final option in menuOptions) {
       appRoutes.addAll({option.route: (BuildContext context) => option.screen});
     }
+
+    appRoutes.addAll(
+        {'selectBus': (BuildContext context) => const SelectBusScreen()});
+    appRoutes.addAll(
+    {'selectVehicle': (BuildContext context) => const SelectVehicleScreen()});
+    appRoutes.addAll(
+    {'register': (BuildContext context) => const RegisterScreen()});
 
     return appRoutes;
   }
