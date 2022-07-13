@@ -17,9 +17,6 @@ class AuthService extends ChangeNotifier {
   // final Set<Bus> listBus = {};
 
   Future<String?> login(String email, String password) async {
-    // final url = Uri.https(
-    //     _baseUrl, 'api/logIn', {'usr_id': email, 'usr_pass': password});
-    // final resp = await http.get(url);
     final resp = await http.post(Uri.parse('$_baseUrl/auth/login'),
         body: ({
           'email': email,

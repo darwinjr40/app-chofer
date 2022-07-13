@@ -53,6 +53,22 @@ class _MapScreenState extends State<MapScreen> {
                       initialLocation: locationState.lastKnownLocation!,
                       polylines: polylines.values.toSet(),
                     ),
+                    const Positioned(
+                      bottom: 50,
+                      left: 20,
+                      // child: IconButton(
+                      //   icon: const Icon(Icons.send),
+                      //   onPressed: () {
+                      //     if (locationState.lastKnownLocation == null) return;
+                      //     final currentLat =
+                      //         locationState.lastKnownLocation!.latitude;
+                      //     final currentLong =
+                      //         locationState.lastKnownLocation!.longitude;
+                      //     print('timer  $currentLat , $currentLong');
+                      //   },
+                      // ),
+                      child: StatusView(),
+                    ),
                   ],
                 ),
               );
