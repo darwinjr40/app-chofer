@@ -7,7 +7,7 @@ import 'package:micros_app/presentation/views/status_view.dart';
 class AppRoutes {
   // static const initialRoute = 'checking';
 
-  static const initialRoute = 'loading';
+  static const initialRoute = 'login';
   static final menuOptions = <MenuOption>[
     MenuOption(
       route: 'home',

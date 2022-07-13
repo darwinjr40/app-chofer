@@ -41,7 +41,7 @@ class SelectVehicleScreen extends StatelessWidget {
             service.vehiculo = service.listaVehiculos[index],
             // vehicleBloc.add(OnSetVehicleEvent(nuevoVehiculo: service.listaVehiculos[index]) ),
             // if (vehicleBloc.state.vehicle != null) return
-            Navigator.pushReplacementNamed(context, 'home'),
+            Navigator.pushReplacementNamed(context, 'loading'),
           },
         ),
       ),

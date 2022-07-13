@@ -53,15 +53,18 @@ class _StatusViewState extends State<StatusView> {
 
   void startTimer({bool resets = true}) {
     final locationBloc = BlocProvider.of<LocationBloc>(context);
+    final service = Provider.of<AuthService>(context, listen: false);
+
     if (resets) {
       reset();
     }
     if (locationBloc.state.lastKnownLocation != null) {
       final currentLat = locationBloc.state.lastKnownLocation!.latitude;
       final currentLong = locationBloc.state.lastKnownLocation!.longitude;
+      debugPrint('${service.user.id}/${service.vehiculo.id}/$currentLat/$currentLong');
       DriversService.updateLocation(
-        userId: '1',
-        vehiculeId: '1',
+        userId: '${service.user.id}',
+        vehiculeId: '${service.vehiculo.id}',
         latitude: currentLat,
         longitud: currentLong,
       );
@@ -72,9 +75,10 @@ class _StatusViewState extends State<StatusView> {
         if (locationBloc.state.lastKnownLocation != null) {
           final currentLat = locationBloc.state.lastKnownLocation!.latitude;
           final currentLong = locationBloc.state.lastKnownLocation!.longitude;
+      debugPrint('${service.user.id}/${service.vehiculo.id}/$currentLat/$currentLong');
           DriversService.updateLocation(
-            userId: '1',
-            vehiculeId: '1',
+            userId: '${service.user.id}',
+            vehiculeId: '${service.vehiculo.id}',
             latitude: currentLat,
             longitud: currentLong,
           );

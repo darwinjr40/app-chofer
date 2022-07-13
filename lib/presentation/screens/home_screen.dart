@@ -21,7 +21,7 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('User: ${authService.user.name}'),
+        title: Text('User: ${authService.user.id}'),
         backgroundColor: const Color.fromARGB(255, 12, 17, 156),
         centerTitle: true,
         actions: [
@@ -87,7 +87,7 @@ class HomeScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // Text('4589VKU'),
-                Text('Placa: ${authService.vehiculo.plate}'),
+                Text('Placa: ${authService.vehiculo.id}'),
                 const SizedBox(width: 50),
                 // Text('Linea: ${authService.selectedBus.id}'),
               ],
