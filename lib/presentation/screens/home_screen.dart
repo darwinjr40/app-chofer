@@ -15,8 +15,8 @@ class HomeScreen extends StatelessWidget {
     final _textController = TextEditingController();
 
     final authService = Provider.of<AuthService>(context, listen: false);
-    final busService = Provider.of<BusService>(context, listen: false);
-    final vehicleService = Provider.of<VehicleService>(context, listen: false);
+    // final busService = Provider.of<BusService>(context, listen: false);
+    // final vehicleService = Provider.of<VehicleService>(context, listen: false);
 
     return Scaffold(
       appBar: AppBar(
@@ -86,9 +86,9 @@ class HomeScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // Text('4589VKU'),
-                Text('Placa: ${vehicleService.selectedVehicle.plate}'),
+                Text('Placa: ${authService.vehiculo.plate}'),
                 const SizedBox(width: 50),
-                Text('Linea: ${busService.selectedBus.id}'),
+                // Text('Linea: ${authService.selectedBus.id}'),
               ],
             ),
             const SizedBox(height: 30),

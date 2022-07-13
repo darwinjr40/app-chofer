@@ -178,13 +178,9 @@ class _LoginFormState extends State<_LoginForm> {
                         loginForm.email, loginForm.password);
 
                     if (errorMessage == null) {
-                      //*Navegar a otra pantalla
-                      // Navigator.pushReplacementNamed(context, 'home');
-                      Navigator.pushReplacementNamed(context, 'selectBus');
+                      Navigator.pushReplacementNamed(context, 'selectVehicle');
                     } else {
-                      //*Mostrar mensaje de Error
                       mostrarAlerta(context, 'Login incorrecto', errorMessage);
-                      // NotificationsService.showSnackbar(errorMessage);
                       loginForm.isLoading = false;
                     }
                   },

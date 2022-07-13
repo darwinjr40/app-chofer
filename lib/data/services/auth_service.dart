@@ -9,17 +9,13 @@ import 'package:micros_app/data/models/user_model.dart';
 // ! cuando este la api de login lista lo cambio
 
 class AuthService extends ChangeNotifier {
-  //DanielU Patch
-  // final String _baseUrl = "admin.andresmontano.website";
   final String _baseUrl = "https://supportficct.ga/sig_backend/public/api";
   late User user;
+  late List<Vehiculo> listaVehiculos;
+  late Vehiculo vehiculo;
   final storage = const FlutterSecureStorage();
-  // final Set<Bus> listBus = {};
-
+  
   Future<String?> login(String email, String password) async {
-    // final url = Uri.https(
-    //     _baseUrl, 'api/logIn', {'usr_id': email, 'usr_pass': password});
-    // final resp = await http.get(url);
     final resp = await http.post(Uri.parse('$_baseUrl/auth/login'),
         body: ({
           'email': email,
@@ -27,15 +23,13 @@ class AuthService extends ChangeNotifier {
         }));
     final Map<String, dynamic> decodedResp = json.decode(resp.body);
     if (decodedResp.containsKey('user')) {
-      // await storage.write(key: 'userId', value: decodedResp['usr_id']);
-      user = User.fromJson(decodedResp['user']);
-      await storage.write(
-          key: 'userId', value: decodedResp['user']['id'].toString());
-      await storage.write(
-          key: 'name', value: decodedResp['user']['name'].toString());
+      Data data = Data.fromMap(decodedResp);
+      user = data.user;
+      listaVehiculos = data.vehiculos;
+      await storage.write(key: 'userId', value: '${user.id}');
+      await storage.write(key: 'name', value: user.name);
       return null;
     } else {
-      // return decodedResp['message'];
       return 'revise sus credenciales';
     }
   }

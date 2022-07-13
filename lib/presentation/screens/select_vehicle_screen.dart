@@ -11,7 +11,7 @@ class SelectVehicleScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final vehicleServices = Provider.of<VehicleService>(context);
+    final service = Provider.of<AuthService>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Center(child: Text("Lista de Vehiculos")),
@@ -22,11 +22,11 @@ class SelectVehicleScreen extends StatelessWidget {
       body: ListView.builder(
         // reverse: true,
         // separatorBuilder: (_, __) => const Divider(height: 30),
-        itemCount: vehicleServices.listaVehicles.length,
+        itemCount: service.listaVehiculos.length,
         itemBuilder: (context, index) => ListTile(
-          title: Text('Vehiculo ${vehicleServices.listaVehicles[index].id}',
+          title: Text('Vehiculo ${service.listaVehiculos[index].id}',
               style: const TextStyle(color: Colors.black)),
-          subtitle: Text('Placa ${vehicleServices.listaVehicles[index].plate}'),
+          subtitle: Text('Placa ${service.listaVehiculos[index].plate}'),
           leading: const Icon(
             Icons.directions_bus_outlined,
             color: Colors.black,
@@ -36,9 +36,8 @@ class SelectVehicleScreen extends StatelessWidget {
             color: Colors.black,
           ),
           onTap: () => {
-            vehicleServices.selectedVehicle = vehicleServices.listaVehicles[index],
+            service.vehiculo = service.listaVehiculos[index],
             Navigator.pushReplacementNamed(context, 'home'),            
-            // print(vehicleServices.listaVehicles[index].id.toString()),
           },
         ),
       ),
