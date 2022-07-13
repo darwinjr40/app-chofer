@@ -24,3 +24,9 @@ class UpdateUserPolylineEvent extends MapEvent {
 }
 
 class OnToogleUserRoute extends MapEvent {}
+
+class OnIncrementarCounterEvent extends MapEvent {
+  final int userInput;
+
+  const OnIncrementarCounterEvent(this.userInput);
+}

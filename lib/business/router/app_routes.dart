@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 
 import 'package:micros_app/data/models/models.dart';
 import 'package:micros_app/presentation/screens/screens.dart';
+import 'package:micros_app/presentation/views/status_view.dart';
 
 class AppRoutes {
-  static const initialRoute = 'login';
+  // static const initialRoute = 'checking';
+
+  static const initialRoute = 'loading';
   static final menuOptions = <MenuOption>[
     MenuOption(
       route: 'home',
@@ -41,10 +44,12 @@ class AppRoutes {
 
     appRoutes.addAll(
         {'selectBus': (BuildContext context) => const SelectBusScreen()});
-    appRoutes.addAll(
-    {'selectVehicle': (BuildContext context) => const SelectVehicleScreen()});
-    appRoutes.addAll(
-    {'register': (BuildContext context) => const RegisterScreen()});
+    appRoutes.addAll({
+      'selectVehicle': (BuildContext context) => const SelectVehicleScreen()
+    });
+    appRoutes
+        .addAll({'register': (BuildContext context) => const RegisterScreen()});
+    appRoutes.addAll({'status': (BuildContext context) => const StatusView()});
 
     return appRoutes;
   }

@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+
+// TODO: Aqui trabajen Harold y Darwin
+
+// ! Al elegir un micro, debe guardar los datos y hacer pushReplamentNamed(homescreen)
 import 'package:micros_app/data/services/services.dart';
 import 'package:micros_app/presentation/screens/screens.dart';
 import 'package:provider/provider.dart';
@@ -41,8 +45,9 @@ class SelectBusScreen extends StatelessWidget {
             busServices.selectedBus = busServices.listaBuses[index],
             // print(busServices.selectedBus.id.toString()),
             vehicleServices.loadVehicle(busServices.selectedBus.id),
-            if (vehicleServices.isLoading)  const LoadingScreen(),
-            Navigator.pushNamed(context, 'selectVehicle', arguments: busServices.selectedBus.id),
+            if (vehicleServices.isLoading) const LoadingScreen(),
+            Navigator.pushNamed(context, 'selectVehicle',
+                arguments: busServices.selectedBus.id),
           },
         ),
       ),
