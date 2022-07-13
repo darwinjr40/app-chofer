@@ -16,6 +16,7 @@ void main() {
         BlocProvider(
             create: (context) =>
                 MapBloc(locationBloc: BlocProvider.of<LocationBloc>(context))),
+        BlocProvider(create: (context) => VehicleBloc()),
       ],
       child: const AppState(),
     ),

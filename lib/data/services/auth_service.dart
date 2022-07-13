@@ -14,7 +14,7 @@ class AuthService extends ChangeNotifier {
   late List<Vehiculo> listaVehiculos;
   late Vehiculo vehiculo;
   final storage = const FlutterSecureStorage();
-  
+    
   Future<String?> login(String email, String password) async {
     final resp = await http.post(Uri.parse('$_baseUrl/auth/login'),
         body: ({

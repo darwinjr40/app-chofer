@@ -1,5 +1,6 @@
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:micros_app/data/blocs/vehicle/vehicle_bloc.dart';
 import 'package:micros_app/data/services/services.dart';
 import 'package:micros_app/env.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +13,7 @@ class SelectVehicleScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final service = Provider.of<AuthService>(context);
+    final vehicleBloc = BlocProvider.of<VehicleBloc>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Center(child: Text("Lista de Vehiculos")),
@@ -37,7 +39,9 @@ class SelectVehicleScreen extends StatelessWidget {
           ),
           onTap: () => {
             service.vehiculo = service.listaVehiculos[index],
-            Navigator.pushReplacementNamed(context, 'home'),            
+            // vehicleBloc.add(OnSetVehicleEvent(nuevoVehiculo: service.listaVehiculos[index]) ),
+            // if (vehicleBloc.state.vehicle != null) return
+            Navigator.pushReplacementNamed(context, 'home'),
           },
         ),
       ),
