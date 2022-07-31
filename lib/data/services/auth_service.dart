@@ -2,8 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'package:micros_app/data/models/user_model.dart';
+import 'package:micros_app/data/models/models.dart';
 
 // ! por ahora va a estar referenciado a uno de mis proyectos que tengo arriba
 // ! cuando este la api de login lista lo cambio
@@ -14,7 +15,7 @@ class AuthService extends ChangeNotifier {
   late List<Vehiculo> listaVehiculos;
   late Vehiculo vehiculo;
   final storage = const FlutterSecureStorage();
-    
+
   Future<String?> login(String email, String password) async {
     final resp = await http.post(Uri.parse('$_baseUrl/auth/login'),
         body: ({
@@ -41,5 +42,44 @@ class AuthService extends ChangeNotifier {
 
   Future<String> isLoged() async {
     return await storage.read(key: 'userId') ?? '';
+  }
+
+  Future<Map<String, Polyline>> loadRutas() async {
+    final markerStart = Cap.customCapFromBitmap(
+        BitmapDescriptor.defaultMarkerWithHue(100),
+        refWidth: 14.0);
+    final marketFin =
+        Cap.customCapFromBitmap(BitmapDescriptor.defaultMarker, refWidth: 14.0);
+    List<PatternItem> listaPatterns = [
+      PatternItem.dash(100.0),
+      PatternItem.gap(5.0),
+      PatternItem.dash(20.0),
+      PatternItem.gap(30.0),
+    ];
+    final url = '$_baseUrl/vehicles/ruta/${vehiculo.id}';
+    final resp = await http.get(Uri.parse(url));
+    final jsonResponse = json.decode(resp.body);
+    Ruta data = Ruta.fromMap(jsonResponse);
+    
+    Polyline lineaRutaIda = Polyline(
+          polylineId: const PolylineId('ida'),
+          color: Colors.green,
+          width: 6,
+          startCap: markerStart,
+          endCap: marketFin,
+          points: data.ida,
+          patterns: listaPatterns);
+    Polyline lineaRutaVuelta = Polyline(
+          polylineId: const PolylineId('vuelta'),
+          color: Colors.red,
+          width: 6,
+          startCap: markerStart,
+          endCap: marketFin,
+          points: data.vuelta,
+          patterns: listaPatterns);
+              
+    Map<String, Polyline> routes = {'ida': lineaRutaIda, 'vuelta':lineaRutaVuelta};
+    vehiculo.routes = routes;
+    return routes;
   }
 }

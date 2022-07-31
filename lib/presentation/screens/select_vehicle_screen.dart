@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:micros_app/data/blocs/blocs.dart';
 import 'package:micros_app/data/blocs/vehicle/vehicle_bloc.dart';
 import 'package:micros_app/data/services/services.dart';
 import 'package:micros_app/env.dart';
@@ -13,7 +15,8 @@ class SelectVehicleScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final service = Provider.of<AuthService>(context);
-    final vehicleBloc = BlocProvider.of<VehicleBloc>(context);
+    final mapbloc = BlocProvider.of<MapBloc>(context);
+    // final vehicleBloc = BlocProvider.of<VehicleBloc>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Center(child: Text("Lista de Vehiculos")),
@@ -37,15 +40,22 @@ class SelectVehicleScreen extends StatelessWidget {
             Icons.arrow_forward_ios_sharp,
             color: Colors.black,
           ),
-          onTap: () => {
-            service.vehiculo = service.listaVehiculos[index],
-            // vehicleBloc.add(OnSetVehicleEvent(nuevoVehiculo: service.listaVehiculos[index]) ),
-            // if (vehicleBloc.state.vehicle != null) return
-            Navigator.pushReplacementNamed(context, 'loading'),
+          // onTap: _load(context, service, index),
+          onTap: () async {
+            service.vehiculo = service.listaVehiculos[index];
+            service.loadRutas();
+            await Future.delayed(const Duration(seconds: 3));
+            mapbloc.add(OnAddPolylinesEvent(service.vehiculo.routes!));
+            await Future.delayed(const Duration(seconds: 3));
+            debugPrint('----------------');
+            debugPrint('${mapbloc.state.polylines.length}');
+            Navigator.pushReplacementNamed(context, 'loading');
           },
         ),
       ),
       // separatorBuilder: (_, __) => const SizedBox(height: 5),
     );
   }
+
+  Future _load(BuildContext context, AuthService service, int index) async {}
 }

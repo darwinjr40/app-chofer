@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -12,11 +13,11 @@ class VehicleService extends ChangeNotifier {
   bool isSaving = false;
   //----------------------------------------------------------------------------
   VehicleService() {
-    print('VehicleService constructor');
+    debugPrint('VehicleService constructor');
   }
   //----------------------------------------------------------------------------
   Future<List<Vehicle>> loadVehicle(int i) async {
-    print(
+    debugPrint(
         'loadVehicle------------------------------------------------------------');
     listaVehicles = [];
     isLoading = true;
@@ -30,10 +31,12 @@ class VehicleService extends ChangeNotifier {
     }
     isLoading = false;
     notifyListeners();
-    print('fuera del for $i');
-    print(listaVehicles);
-    print(
+    debugPrint('fuera del for $i');
+    debugPrint('$listaVehicles');
+    debugPrint(
         'loadVehicle------------------------------------------------------------');
     return listaVehicles;
   }
+
+  
 }

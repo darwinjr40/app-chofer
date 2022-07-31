@@ -30,3 +30,9 @@ class OnIncrementarCounterEvent extends MapEvent {
 
   const OnIncrementarCounterEvent(this.userInput);
 }
+
+class OnAddPolylinesEvent extends MapEvent {
+  final Map<String, Polyline> aux;
+
+  const OnAddPolylinesEvent(this.aux);
+}

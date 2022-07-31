@@ -27,6 +27,8 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     on<OnToogleUserRoute>(
         (event, emit) => emit(state.copyWith(showMyRoute: !state.showMyRoute)));
 
+    on<OnAddPolylinesEvent>(_onAddPolylines);
+    
     locationStateSubscription = locationBloc.stream.listen((locationState) {
       if (locationState.lastKnownLocation != null) {
         add(UpdateUserPolylineEvent(locationState.myLocationHistory));
@@ -79,5 +81,12 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   Future<void> close() {
     locationStateSubscription?.cancel();
     return super.close();
+  }
+
+  void _onAddPolylines(OnAddPolylinesEvent event, Emitter<MapState> emit) {
+    final mapPolylines = Map<String, Polyline>.from(state.polylines);
+    mapPolylines.removeWhere((key, value) => key != 'myRoute');
+    mapPolylines.addAll(event.aux);
+    emit(state.copyWith(polylines: mapPolylines));
   }
 }
