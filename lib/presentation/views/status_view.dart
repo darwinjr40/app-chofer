@@ -122,62 +122,61 @@ class _StatusViewState extends State<StatusView> {
                 const SizedBox(height: 10),
                 !isRunning
                     ? MaterialButton(
-                    minWidth: size.width - 250,
-                    child: const Text(
-                      'Empezar Recorrido',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    color: Colors.white,
-                    elevation: 0,
-                    height: 50,
-                    shape: const StadiumBorder(),
-                    onPressed: () {
-                      service.setActive();
-                      DriversService.inService(
-                          vehicleId: service.vehiculo.id,
-                          userId: service.user.id,
-                          isLogin: 1,
-                          message: 'Empezar Recorrido');
-                      startTimer();
-                    },
-                  )
-                : const SizedBox(),
-            isRunning
-                ? MaterialButton(
-                    minWidth: size.width - 250,
-                    child: const Text(
-                      'Terminar Recorrido',
-                      style: TextStyle(
+                        minWidth: size.width - 250,
+                        child: const Text(
+                          'Empezar Recorrido',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
                         color: Colors.white,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    color: Colors.black,
-                    elevation: 0,
-                    height: 50,
-                    shape: const StadiumBorder(),
-                    onPressed: () {
-                      service.setActive();
-                      DriversService.inService(
-                          vehicleId: service.vehiculo.id,
-                          userId: service.user.id,
-                          isLogin: 0,
-                          message: 'Terminar Recorrido');
-                      debugPrint('niseFin---------------');
-                      stopTimer();
-                    },
-                  )
-                : const SizedBox(),
+                        elevation: 0,
+                        height: 50,
+                        shape: const StadiumBorder(),
+                        onPressed: () {
+                          service.setActive();
+                          DriversService.inService(
+                              vehicleId: service.vehiculo.id,
+                              userId: service.user.id,
+                              isLogin: 1,
+                              message: 'Empezar Recorrido');
+                          startTimer();
+                        },
+                      )
+                    : const SizedBox(),
+                isRunning
+                    ? MaterialButton(
+                        minWidth: size.width - 250,
+                        child: const Text(
+                          'Terminar Recorrido',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        color: Colors.black,
+                        elevation: 0,
+                        height: 50,
+                        shape: const StadiumBorder(),
+                        onPressed: () {
+                          service.setActive();
+                          DriversService.inService(
+                              vehicleId: service.vehiculo.id,
+                              userId: service.user.id,
+                              isLogin: 0,
+                              message: 'Terminar Recorrido');
+                          debugPrint('niseFin---------------');
+                          stopTimer();
+                        },
+                      )
+                    : const SizedBox(),
               ],
             ),
-            
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                BtnLogOut(stopTimer: stopTimer),
+                 BtnLogOut(stopTimer: (){}), 
               ],
             ),
           ],

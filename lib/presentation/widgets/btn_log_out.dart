@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:micros_app/data/services/services.dart';
 import 'package:micros_app/env.dart';
-import 'package:micros_app/presentation/screens/screens.dart';
+// import 'package:micros_app/presentation/screens/screens.dart';
 import 'package:provider/provider.dart';
 
 class BtnLogOut extends StatelessWidget {
   final Function stopTimer;
+  // , required this.stopTimer
   const BtnLogOut({Key? key, required this.stopTimer}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final service = Provider.of<AuthService>(context);
-    if (service.isActive) {
-      return GetContainerT(
-        stopTimer: stopTimer,
-        service: service,
-      );
-    } else {
+    // if (service.isActive) {
+    //   return GetContainerT(
+    //     stopTimer: stopTimer,
+    //     service: service,
+    //   );
+    // } else {
       return GetContainerfalse(
         service: service,
       );
-    }
+    // }
   }
 }
 
@@ -44,8 +45,10 @@ class GetContainerfalse extends StatelessWidget {
             color: Colors.white,
           ),
           onPressed: () {
-            Navigator.pushReplacementNamed(context, 'login');
+            debugPrint('GetContainerfalse-------------');
             service.loguot();
+            Navigator.pushReplacementNamed(context, 'login');
+            debugPrint('GetContainerfalse1-------------');
           },
         ),
       ),
@@ -76,8 +79,10 @@ class GetContainerT extends StatelessWidget {
             color: Colors.white,
           ),
           onPressed: () {
+            debugPrint('GetContainerT');
             service.setActive();
             showLoguotDialog(context, service, stopTimer);
+            debugPrint('GetContainerT1');
           },
         ),
       ),

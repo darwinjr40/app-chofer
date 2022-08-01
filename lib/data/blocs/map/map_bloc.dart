@@ -88,11 +88,11 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   }
 
   void _onAddPolylines(OnAddPolylinesEvent event, Emitter<MapState> emit) {
-    // final mapPolylines = Map<String, Polyline>.from(state.polylines);
-    // mapPolylines.removeWhere((key, value) => key != 'myRoute');
+    final mapPolylines = Map<String, Polyline>.from(state.polylines);
+    mapPolylines.removeWhere((key, value) => key != 'myRoute');
     // Map<String, Polyline> mapPolylines = {};
-    // mapPolylines.addAll(event.aux);
-    emit(state.copyWith(polylines: event.aux));
+    mapPolylines.addAll(event.aux);
+    emit(state.copyWith(polylines: mapPolylines));
     // locationStateSubscription = locationBloc.stream.listen((locationState) {
     //   if (locationState.lastKnownLocation != null) {
         // add(const UpdateUserPolylineEvent( []));

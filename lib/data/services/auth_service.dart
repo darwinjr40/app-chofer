@@ -68,8 +68,8 @@ class AuthService extends ChangeNotifier {
     final url = '$_baseUrl/vehicles/ruta/${vehiculo.id}';
     final resp = await http.get(Uri.parse(url));
     final jsonResponse = json.decode(resp.body);
-    debugPrint(jsonResponse.toString());
-    debugPrint('------------------------------');
+    // debugPrint(jsonResponse.toString());
+    // debugPrint('------------------------------');
     Ruta data = Ruta.fromMap(jsonResponse);
 
     Polyline lineaRutaIda = Polyline(

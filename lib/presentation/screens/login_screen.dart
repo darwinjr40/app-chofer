@@ -5,7 +5,6 @@ import 'package:micros_app/data/services/services.dart';
 import 'package:micros_app/presentation/widgets/widgets.dart';
 import 'package:micros_app/presentation/helpers/mostrar_alerta.dart';
 import 'package:micros_app/business/providers/providers.dart';
-import 'package:micros_app/env.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -185,15 +184,15 @@ class _LoginFormState extends State<_LoginForm> {
                     }
                   },
           ),
-          TextButton(
-            onPressed: () => Navigator.pushNamed(context, 'register'),
-            style: ButtonStyle(
-                overlayColor: MaterialStateProperty.all(primaryColor)),
-            child: const Text(
-              'Crear una nueva cuenta',
-              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-            ),
-          ),
+          // TextButton(
+          //   onPressed: () => Navigator.pushNamed(context, 'register'),
+          //   style: ButtonStyle(
+          //       overlayColor: MaterialStateProperty.all(primaryColor)),
+          //   child: const Text(
+          //     'Crear una nueva cuenta',
+          //     style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+          //   ),
+          // ),
         ],
       ),
     );

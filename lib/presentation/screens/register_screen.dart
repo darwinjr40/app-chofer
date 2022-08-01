@@ -19,7 +19,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   late String ci;
   late String cellphone;
   late String address;
-  late final GlobalKey<FormState> _keyForm = GlobalKey<FormState>();
+  // late final GlobalKey<FormState> _keyForm = GlobalKey<FormState>();
   TextEditingController birthController = TextEditingController();
   bool registrando = false;
   Dropdown dropSex = Dropdown(items: const ['Masculino', 'Femenino', 'Otro']);

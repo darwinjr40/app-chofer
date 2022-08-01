@@ -11,10 +11,10 @@ class OnNewUserLocationEvent extends LocationEvent {
   final LatLng newLocation;
   const OnNewUserLocationEvent(this.newLocation);
 }
-class OnUpdateLocationHistoryEvent extends LocationEvent {
-  final List<LatLng> newHistory;
-  const OnUpdateLocationHistoryEvent(this.newHistory);
-}
+// class OnUpdateLocationHistoryEvent extends LocationEvent {
+//   final List<LatLng> newHistory;
+//   const OnUpdateLocationHistoryEvent(this.newHistory);
+// }
 
 class OnStartFollowingUser extends LocationEvent {}
 

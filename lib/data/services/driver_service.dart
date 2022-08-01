@@ -34,7 +34,8 @@ class DriversService {
     final url = Uri.parse(
       'https://supportficct.ga/sig_backend/public/api/sessions/write',
     );
-    final resp = await http.post(
+    // final resp = 
+    await http.post(
       url,
       body: {
         'isLogin': isLogin.toString(),

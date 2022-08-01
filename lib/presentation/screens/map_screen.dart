@@ -76,7 +76,7 @@ class _MapScreenState extends State<MapScreen> {
                       // ),
                       // child: statusView,
                       child: statusView,
-                    ),  
+                    ),
                   ],
                 ),
               );
@@ -88,13 +88,12 @@ class _MapScreenState extends State<MapScreen> {
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: const [
-              // BtnLogOut(stopTimer:  statusView.stopTimer()),
-               
-            ],
-          ),
+          // Column(
+          //   mainAxisAlignment: MainAxisAlignment.end,
+          //   children:  [
+          //     BtnLogOut(stopTimer: () {}),
+          //   ],
+          // ),
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: const [
