@@ -45,7 +45,6 @@ class SelectVehicleScreen extends StatelessWidget {
           // onTap: _load(context, service, index),
           onTap: () async {
             service.vehiculo = service.listaVehiculos[index];
-            // showAlertDialog(context);
             service.loadRutas();
             Navigator.pushReplacementNamed(context, 'loading');
           },

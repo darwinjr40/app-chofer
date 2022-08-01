@@ -135,7 +135,7 @@ class _StatusViewState extends State<StatusView> {
                         height: 50,
                         shape: const StadiumBorder(),
                         onPressed: () {
-                          service.setActive();
+                          service.setActive(true);
                           DriversService.inService(
                               vehicleId: service.vehiculo.id,
                               userId: service.user.id,
@@ -160,13 +160,13 @@ class _StatusViewState extends State<StatusView> {
                         height: 50,
                         shape: const StadiumBorder(),
                         onPressed: () {
-                          service.setActive();
+                          service.setActive(false);
                           DriversService.inService(
                               vehicleId: service.vehiculo.id,
                               userId: service.user.id,
                               isLogin: 0,
                               message: 'Terminar Recorrido');
-                          debugPrint('niseFin---------------');
+                          debugPrint('Terminar Recorrido---------------');
                           stopTimer();
                         },
                       )

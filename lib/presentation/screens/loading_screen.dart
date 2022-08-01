@@ -27,7 +27,7 @@ class LoadingScreen extends StatelessWidget {
             //   locationBloc.add(const OnUpdateLocationHistoryEvent([]));
             // }
             mapbloc.add(OnAddPolylinesEvent(service.vehiculo.routes!));
-            debugPrint('se actualizo routas');
+            debugPrint('se actualizo routas--Loading');
           }
           return const MapScreen();
         } else {

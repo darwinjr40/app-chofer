@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:micros_app/data/blocs/blocs.dart';
 import 'package:micros_app/data/services/services.dart';
 import 'package:micros_app/env.dart';
 // import 'package:micros_app/presentation/screens/screens.dart';
@@ -8,36 +10,17 @@ class BtnLogOut extends StatelessWidget {
   final Function stopTimer;
   // , required this.stopTimer
   const BtnLogOut({Key? key, required this.stopTimer}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final service = Provider.of<AuthService>(context);
-    // if (service.isActive) {
-    //   return GetContainerT(
-    //     stopTimer: stopTimer,
-    //     service: service,
-    //   );
-    // } else {
-      return GetContainerfalse(
-        service: service,
-      );
-    // }
-  }
-}
-
-class GetContainerfalse extends StatelessWidget {
-  const GetContainerfalse({
-    Key? key,
-    required this.service,
-  }) : super(key: key);
-
-  final AuthService service;
-
-  @override
-  Widget build(BuildContext context) {
+    final locationBloc = BlocProvider.of<LocationBloc>(context, listen: false);
+    bool sw = service.isActive;
+    
     return Container(
       margin: const EdgeInsets.only(left: 10),
       child: CircleAvatar(
-        backgroundColor: Colors.black,
+        backgroundColor: (sw) ?  Colors.red.withOpacity(0.9) : Colors.black,
         maxRadius: 25,
         child: IconButton(
           icon: const Icon(
@@ -45,10 +28,19 @@ class GetContainerfalse extends StatelessWidget {
             color: Colors.white,
           ),
           onPressed: () {
-            debugPrint('GetContainerfalse-------------');
-            service.loguot();
-            Navigator.pushReplacementNamed(context, 'login');
-            debugPrint('GetContainerfalse1-------------');
+            if (sw) {
+              debugPrint('GetContainerT');
+              service.setActive(false);
+              showLoguotDialog(context, service, stopTimer);
+              debugPrint('GetContainerT1');              
+            } else {
+              debugPrint('GetContainerfalse-------------');
+              service.loguot();
+              locationBloc.add(OnStopFollowingUser());
+              // stopFollowingUser
+              Navigator.pushReplacementNamed(context, 'login');
+              debugPrint('GetContainerfalse1-------------');
+            }
           },
         ),
       ),
@@ -56,39 +48,6 @@ class GetContainerfalse extends StatelessWidget {
   }
 }
 
-class GetContainerT extends StatelessWidget {
-  final Function stopTimer;
-  final AuthService service;
-
-  const GetContainerT({
-    Key? key,
-    required this.stopTimer,
-    required this.service,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(left: 10),
-      child: CircleAvatar(
-        backgroundColor: Colors.red.withOpacity(0.9),
-        maxRadius: 25,
-        child: IconButton(
-          icon: const Icon(
-            Icons.logout,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            debugPrint('GetContainerT');
-            service.setActive();
-            showLoguotDialog(context, service, stopTimer);
-            debugPrint('GetContainerT1');
-          },
-        ),
-      ),
-    );
-  }
-}
 
 void showLoguotDialog(
     BuildContext context, AuthService service, Function stopTimer) {
@@ -121,9 +80,7 @@ void showLoguotDialog(
             ),
             actions: [
               ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
+                onPressed: () => Navigator.of(context).pop(),
                 child: const Text('CANCELAR'),
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(Colors.red)),
@@ -139,9 +96,9 @@ void showLoguotDialog(
                   service.loguot();
                   Navigator.pushReplacementNamed(context, 'login');
                 },
+                child: const Text('ENVIAR'),
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(primaryColor)),
-                child: const Text('ENVIAR'),
               ),
             ],
           ));

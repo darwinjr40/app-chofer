@@ -18,8 +18,9 @@ class AuthService extends ChangeNotifier {
   late bool isLoading;
 
   late bool isActive = false;
-  void setActive() {
-    isActive = !isActive;
+  
+  void setActive(bool x) {
+    isActive = x;
     notifyListeners();
   }
 

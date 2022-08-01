@@ -62,8 +62,8 @@ class HomeScreen extends StatelessWidget {
                             onPressed: //_textController.text.isNotEmpty
                                 // ?
                                 () {
-                              authService.loguot();
-                              Navigator.pushReplacementNamed(context, 'login');
+                              // authService.loguot();
+                              // Navigator.pushReplacementNamed(context, 'login');
                             },
                             // : null,
                             child: const Text('ENVIAR'),
