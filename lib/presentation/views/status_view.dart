@@ -4,8 +4,8 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:micros_app/data/blocs/location/location_bloc.dart';
-import 'package:micros_app/data/services/auth_service.dart';
 import 'package:micros_app/data/services/services.dart';
+import 'package:micros_app/presentation/widgets/widgets.dart';
 import 'package:provider/provider.dart';
 
 class StatusView extends StatefulWidget {
@@ -13,6 +13,10 @@ class StatusView extends StatefulWidget {
 
   @override
   State<StatusView> createState() => _StatusViewState();
+
+  void stopTimer() {
+    _StatusViewState().stopTimer();
+  }
 }
 
 class _StatusViewState extends State<StatusView> {
@@ -61,7 +65,8 @@ class _StatusViewState extends State<StatusView> {
     if (locationBloc.state.lastKnownLocation != null) {
       final currentLat = locationBloc.state.lastKnownLocation!.latitude;
       final currentLong = locationBloc.state.lastKnownLocation!.longitude;
-      debugPrint('${service.user.id}/${service.vehiculo.id}/$currentLat/$currentLong');
+      debugPrint(
+          '${service.user.id}/${service.vehiculo.id}/$currentLat/$currentLong');
       DriversService.updateLocation(
         userId: '${service.user.id}',
         vehiculeId: '${service.vehiculo.id}',
@@ -75,7 +80,8 @@ class _StatusViewState extends State<StatusView> {
         if (locationBloc.state.lastKnownLocation != null) {
           final currentLat = locationBloc.state.lastKnownLocation!.latitude;
           final currentLong = locationBloc.state.lastKnownLocation!.longitude;
-      debugPrint('${service.user.id}/${service.vehiculo.id}/$currentLat/$currentLong');
+          debugPrint(
+              '${service.user.id}/${service.vehiculo.id}/$currentLat/$currentLong');
           DriversService.updateLocation(
             userId: '${service.user.id}',
             vehiculeId: '${service.vehiculo.id}',
@@ -102,17 +108,21 @@ class _StatusViewState extends State<StatusView> {
   Widget build(BuildContext context) {
     final isRunning = timer == null ? false : timer!.isActive;
     final size = MediaQuery.of(context).size;
+    final service = Provider.of<AuthService>(context);
 
     return FadeInUp(
       child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            isRunning ? buildTime() : const SizedBox(),
-            const SizedBox(height: 10),
-            !isRunning
-                ? MaterialButton(
-                    minWidth: size.width - 100,
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                isRunning ? buildTime() : const SizedBox(),
+                const SizedBox(height: 10),
+                !isRunning
+                    ? MaterialButton(
+                    minWidth: size.width - 250,
                     child: const Text(
                       'Empezar Recorrido',
                       style: TextStyle(
@@ -125,13 +135,19 @@ class _StatusViewState extends State<StatusView> {
                     height: 50,
                     shape: const StadiumBorder(),
                     onPressed: () {
+                      service.setActive();
+                      DriversService.inService(
+                          vehicleId: service.vehiculo.id,
+                          userId: service.user.id,
+                          isLogin: 1,
+                          message: 'Empezar Recorrido');
                       startTimer();
                     },
                   )
                 : const SizedBox(),
             isRunning
                 ? MaterialButton(
-                    minWidth: size.width - 100,
+                    minWidth: size.width - 250,
                     child: const Text(
                       'Terminar Recorrido',
                       style: TextStyle(
@@ -144,10 +160,26 @@ class _StatusViewState extends State<StatusView> {
                     height: 50,
                     shape: const StadiumBorder(),
                     onPressed: () {
+                      service.setActive();
+                      DriversService.inService(
+                          vehicleId: service.vehiculo.id,
+                          userId: service.user.id,
+                          isLogin: 0,
+                          message: 'Terminar Recorrido');
+                      debugPrint('niseFin---------------');
                       stopTimer();
                     },
                   )
                 : const SizedBox(),
+              ],
+            ),
+            
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                BtnLogOut(stopTimer: stopTimer),
+              ],
+            ),
           ],
         ),
       ),

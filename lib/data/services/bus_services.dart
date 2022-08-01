@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -24,14 +23,10 @@ class BusService extends ChangeNotifier {
     final jsonResponse = json.decode(resp.body);
     for (var item in jsonResponse) {
       Bus bus = Bus.fromMap(item);
-      print('loadBuses');
-      print(bus);
       listaBuses.add(bus);
     }
     isLoading = false;
     notifyListeners();
-    print(listaBuses);
-    print('finish loadBuses');
     return listaBuses;
   }
 

@@ -15,6 +15,13 @@ class AuthService extends ChangeNotifier {
   late List<Vehiculo> listaVehiculos;
   late Vehiculo vehiculo;
   final storage = const FlutterSecureStorage();
+  late bool isLoading;
+
+  late bool isActive = false;
+  void setActive() {
+    isActive = !isActive;
+    notifyListeners();
+  }
 
   Future<String?> login(String email, String password) async {
     final resp = await http.post(Uri.parse('$_baseUrl/auth/login'),
@@ -44,7 +51,9 @@ class AuthService extends ChangeNotifier {
     return await storage.read(key: 'userId') ?? '';
   }
 
-  Future<Map<String, Polyline>> loadRutas() async {
+  void loadRutas() async {
+    isLoading = true;
+    notifyListeners();
     final markerStart = Cap.customCapFromBitmap(
         BitmapDescriptor.defaultMarkerWithHue(100),
         refWidth: 14.0);
@@ -59,27 +68,33 @@ class AuthService extends ChangeNotifier {
     final url = '$_baseUrl/vehicles/ruta/${vehiculo.id}';
     final resp = await http.get(Uri.parse(url));
     final jsonResponse = json.decode(resp.body);
+    debugPrint(jsonResponse.toString());
+    debugPrint('------------------------------');
     Ruta data = Ruta.fromMap(jsonResponse);
-    
+
     Polyline lineaRutaIda = Polyline(
-          polylineId: const PolylineId('ida'),
-          color: Colors.green,
-          width: 6,
-          startCap: markerStart,
-          endCap: marketFin,
-          points: data.ida,
-          patterns: listaPatterns);
+        polylineId: const PolylineId('ida'),
+        color: Colors.green,
+        width: 6,
+        startCap: markerStart,
+        endCap: marketFin,
+        points: data.ida,
+        patterns: listaPatterns);
     Polyline lineaRutaVuelta = Polyline(
-          polylineId: const PolylineId('vuelta'),
-          color: Colors.red,
-          width: 6,
-          startCap: markerStart,
-          endCap: marketFin,
-          points: data.vuelta,
-          patterns: listaPatterns);
-              
-    Map<String, Polyline> routes = {'ida': lineaRutaIda, 'vuelta':lineaRutaVuelta};
+        polylineId: const PolylineId('vuelta'),
+        color: Colors.red,
+        width: 6,
+        startCap: markerStart,
+        endCap: marketFin,
+        points: data.vuelta,
+        patterns: listaPatterns);
+
+    Map<String, Polyline> routes = {
+      'ida': lineaRutaIda,
+      'vuelta': lineaRutaVuelta
+    };
     vehiculo.routes = routes;
-    return routes;
+    isLoading = false;
+    notifyListeners();
   }
 }

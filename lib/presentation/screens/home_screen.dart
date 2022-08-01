@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:micros_app/data/blocs/vehicle/vehicle_bloc.dart';
-import 'package:micros_app/presentation/widgets/card_container.dart';
+
 import 'package:provider/provider.dart';
 
 import 'package:micros_app/data/services/services.dart';
@@ -17,7 +15,7 @@ class HomeScreen extends StatelessWidget {
     final _textController = TextEditingController();
 
     final authService = Provider.of<AuthService>(context, listen: false);
-    final vehicleBloc = BlocProvider.of<VehicleBloc>(context).state.vehicle;
+    // final vehicleBloc = BlocProvider.of<VehicleBloc>(context).state.vehicle;
 
     return Scaffold(
       appBar: AppBar(

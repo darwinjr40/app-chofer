@@ -25,6 +25,8 @@ class UpdateUserPolylineEvent extends MapEvent {
 
 class OnToogleUserRoute extends MapEvent {}
 
+class OnshowVehicleRoute extends MapEvent {}
+
 class OnIncrementarCounterEvent extends MapEvent {
   final int userInput;
 

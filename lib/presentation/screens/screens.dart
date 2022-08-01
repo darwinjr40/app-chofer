@@ -7,5 +7,4 @@ export 'package:micros_app/presentation/screens/login_screen.dart';
 export 'package:micros_app/presentation/screens/map_screen.dart';
 export 'package:micros_app/presentation/screens/select_bus_screen.dart';
 export 'package:micros_app/presentation/screens/select_vehicle_screen.dart';
-export 'package:micros_app/presentation/screens/select_vehicle_screen.dart';
 export 'package:micros_app/presentation/screens/register_screen.dart';

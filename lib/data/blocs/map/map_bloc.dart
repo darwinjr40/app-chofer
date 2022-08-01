@@ -24,11 +24,15 @@ class MapBloc extends Bloc<MapEvent, MapState> {
         (event, emit) => emit(state.copyWith(isFollowingUser: false)));
 
     on<UpdateUserPolylineEvent>(_onPolylineNewPoint);
+
     on<OnToogleUserRoute>(
         (event, emit) => emit(state.copyWith(showMyRoute: !state.showMyRoute)));
 
+    on<OnshowVehicleRoute>((event, emit) =>
+        emit(state.copyWith(showVehicleRoute: !state.showVehicleRoute)));
+
     on<OnAddPolylinesEvent>(_onAddPolylines);
-    
+
     locationStateSubscription = locationBloc.stream.listen((locationState) {
       if (locationState.lastKnownLocation != null) {
         add(UpdateUserPolylineEvent(locationState.myLocationHistory));
@@ -84,9 +88,21 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   }
 
   void _onAddPolylines(OnAddPolylinesEvent event, Emitter<MapState> emit) {
-    final mapPolylines = Map<String, Polyline>.from(state.polylines);
-    mapPolylines.removeWhere((key, value) => key != 'myRoute');
-    mapPolylines.addAll(event.aux);
-    emit(state.copyWith(polylines: mapPolylines));
+    // final mapPolylines = Map<String, Polyline>.from(state.polylines);
+    // mapPolylines.removeWhere((key, value) => key != 'myRoute');
+    // Map<String, Polyline> mapPolylines = {};
+    // mapPolylines.addAll(event.aux);
+    emit(state.copyWith(polylines: event.aux));
+    // locationStateSubscription = locationBloc.stream.listen((locationState) {
+    //   if (locationState.lastKnownLocation != null) {
+        // add(const UpdateUserPolylineEvent( []));
+        // add(UpdateUserPolylineEvent([locationState.lastKnownLocation!]));
+        
+      //   add(UpdateUserPolylineEvent(locationState.myLocationHistory));
+      // }
+      // if (!state.isFollowingUser) return;
+      // if (locationState.lastKnownLocation == null) return;
+      // moveCamera(locationState.lastKnownLocation!);
+    // });
   }
 }

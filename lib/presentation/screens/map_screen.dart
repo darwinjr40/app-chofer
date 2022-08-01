@@ -32,6 +32,7 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
+    const statusView = StatusView();
     return Scaffold(
       body: BlocBuilder<LocationBloc, LocationState>(
         builder: (context, locationState) {
@@ -46,6 +47,12 @@ class _MapScreenState extends State<MapScreen> {
               if (!mapState.showMyRoute) {
                 polylines.removeWhere((key, value) => key == 'myRoute');
               }
+              if (mapState.showVehicleRoute) {
+                polylines.removeWhere((key, value) => key == 'vuelta');
+              } else {
+                polylines.removeWhere((key, value) => key == 'ida');
+              }
+
               return SingleChildScrollView(
                 child: Stack(
                   children: [
@@ -54,8 +61,8 @@ class _MapScreenState extends State<MapScreen> {
                       polylines: polylines.values.toSet(),
                     ),
                     const Positioned(
-                      bottom: 50,
-                      left: 20,
+                      bottom: 30,
+                      left: 10,
                       // child: IconButton(
                       //   icon: const Icon(Icons.send),
                       //   onPressed: () {
@@ -67,8 +74,9 @@ class _MapScreenState extends State<MapScreen> {
                       //     print('timer  $currentLat , $currentLong');
                       //   },
                       // ),
-                      child: StatusView(),
-                    ),
+                      // child: statusView,
+                      child: statusView,
+                    ),  
                   ],
                 ),
               );
@@ -77,12 +85,30 @@ class _MapScreenState extends State<MapScreen> {
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton: Column(
+      floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.end,
-        children: const [
-          BtnToogleUserRoute(),
-          BtnFollowUser(),
-          BtnCurrentLocation(),
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: const [
+              // BtnLogOut(stopTimer:  statusView.stopTimer()),
+               
+            ],
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: const [
+              BtnFollowUser(),
+            ],
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: const [
+              BtnChangeRoute(),
+              BtnToogleUserRoute(),
+              BtnCurrentLocation(),
+            ],
+          ),
         ],
       ),
     );

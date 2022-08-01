@@ -20,12 +20,16 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       emit(state.copyWith(
         lastKnownLocation: event.newLocation,
         myLocationHistory: [...state.myLocationHistory, event.newLocation],
+        // myLocationHistory: [event.newLocation],
       ));
     });
+    
+    on<OnUpdateLocationHistoryEvent>((event, emit) => emit(state.copyWith(myLocationHistory: event.newHistory)));
+    
   }
 
   Future getCurrentPosition() async {
-    final position = await Geolocator.getCurrentPosition();
+    // final position = await Geolocator.getCurrentPosition();
   }
 
   void startFollowingUser() {

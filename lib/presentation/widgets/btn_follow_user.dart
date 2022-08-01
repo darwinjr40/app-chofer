@@ -9,7 +9,7 @@ class BtnFollowUser extends StatelessWidget {
   Widget build(BuildContext context) {
     final mapBloc = BlocProvider.of<MapBloc>(context);
     return Container(
-      margin: const EdgeInsets.only(bottom: 10),
+      margin: const EdgeInsets.only(bottom: 10, right: 5),
       child: CircleAvatar(
         backgroundColor: Colors.white,
         maxRadius: 25,

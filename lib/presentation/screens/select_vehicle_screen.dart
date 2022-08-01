@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:micros_app/data/blocs/blocs.dart';
-import 'package:micros_app/data/blocs/vehicle/vehicle_bloc.dart';
 import 'package:micros_app/data/services/services.dart';
 import 'package:micros_app/env.dart';
 import 'package:provider/provider.dart';
@@ -15,15 +11,21 @@ class SelectVehicleScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final service = Provider.of<AuthService>(context);
-    final mapbloc = BlocProvider.of<MapBloc>(context);
-    // final vehicleBloc = BlocProvider.of<VehicleBloc>(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Center(child: Text("Lista de Vehiculos")),
+        title: const Text("Lista de Vehiculos"),
         backgroundColor: primaryColor,
-        elevation: 0,
+        centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout_outlined),
+            onPressed: () {
+              Navigator.pushReplacementNamed(context, 'login');
+              // showLoguotDialog(context, service);
+            },
+          ),
+        ],
       ),
-      // body: Text('nisaadasdasdsd'),
       body: ListView.builder(
         // reverse: true,
         // separatorBuilder: (_, __) => const Divider(height: 30),
@@ -43,12 +45,8 @@ class SelectVehicleScreen extends StatelessWidget {
           // onTap: _load(context, service, index),
           onTap: () async {
             service.vehiculo = service.listaVehiculos[index];
+            // showAlertDialog(context);
             service.loadRutas();
-            await Future.delayed(const Duration(seconds: 3));
-            mapbloc.add(OnAddPolylinesEvent(service.vehiculo.routes!));
-            await Future.delayed(const Duration(seconds: 3));
-            debugPrint('----------------');
-            debugPrint('${mapbloc.state.polylines.length}');
             Navigator.pushReplacementNamed(context, 'loading');
           },
         ),
@@ -56,6 +54,26 @@ class SelectVehicleScreen extends StatelessWidget {
       // separatorBuilder: (_, __) => const SizedBox(height: 5),
     );
   }
-
-  Future _load(BuildContext context, AuthService service, int index) async {}
 }
+
+showAlertDialog(BuildContext context) {
+  AlertDialog alert = AlertDialog(
+    content: Row(
+      children: [
+        const CircularProgressIndicator(),
+        Container(
+            margin: const EdgeInsets.only(left: 5),
+            child: const Text("Loading")),
+      ],
+    ),
+  );
+  showDialog(
+    barrierDismissible: false,
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
+
+
