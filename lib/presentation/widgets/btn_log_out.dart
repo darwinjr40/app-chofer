@@ -16,11 +16,11 @@ class BtnLogOut extends StatelessWidget {
     final service = Provider.of<AuthService>(context);
     final locationBloc = BlocProvider.of<LocationBloc>(context, listen: false);
     bool sw = service.isActive;
-    
+
     return Container(
       margin: const EdgeInsets.only(left: 10),
       child: CircleAvatar(
-        backgroundColor: (sw) ?  Colors.red.withOpacity(0.9) : Colors.black,
+        backgroundColor: (sw) ? Colors.red.withOpacity(0.9) : Colors.black,
         maxRadius: 25,
         child: IconButton(
           icon: const Icon(
@@ -30,9 +30,9 @@ class BtnLogOut extends StatelessWidget {
           onPressed: () {
             if (sw) {
               debugPrint('GetContainerT');
-              service.setActive(false);
+              // stopTimer();
               showLoguotDialog(context, service, stopTimer);
-              debugPrint('GetContainerT1');              
+              debugPrint('GetContainerT1');
             } else {
               debugPrint('GetContainerfalse-------------');
               service.loguot();
@@ -48,10 +48,11 @@ class BtnLogOut extends StatelessWidget {
   }
 }
 
-
 void showLoguotDialog(
     BuildContext context, AuthService service, Function stopTimer) {
   final _textController = TextEditingController();
+  final locationBloc = BlocProvider.of<LocationBloc>(context, listen: false);
+
   showDialog(
       context: context,
       barrierDismissible: false,
@@ -93,6 +94,8 @@ void showLoguotDialog(
                       userId: service.user.id,
                       isLogin: 0,
                       message: _textController.text);
+                  service.setActive(false);
+                  locationBloc.add(OnStopFollowingUser());
                   service.loguot();
                   Navigator.pushReplacementNamed(context, 'login');
                 },
