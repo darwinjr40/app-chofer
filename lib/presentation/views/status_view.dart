@@ -109,43 +109,53 @@ class _StatusViewState extends State<StatusView> {
     final isRunning = timer == null ? false : timer!.isActive;
     final size = MediaQuery.of(context).size;
     final service = Provider.of<AuthService>(context, listen: false);
-    final recorridoService = Provider.of<RecorridoService>(context, listen: false);
+    final recorridoService =
+        Provider.of<RecorridoService>(context, listen: false);
 
     return FadeInUp(
       child: Center(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            // Text('data'),
+            // Column(
+            //   children: [
+            //     isRunning ? buildTime() : const SizedBox(),
+                // const SizedBox(height: 10),
+                // isRunning
+                //     ? MaterialButton(
+                //         minWidth: size.width - 250,
+                //         child: const Text(
+                //           'Terminar Recorrido',
+                //           style: TextStyle(
+                //             color: Colors.white,
+                //             fontWeight: FontWeight.w700,
+                //           ),
+                //         ),
+                //         color: Colors.black,
+                //         elevation: 0,
+                //         height: 50,
+                //         shape: const StadiumBorder(),
+                //         onPressed: () {
+                //           recorridoService.setActive(false);
+                //           DriversService.inService(
+                //               vehicleId: service.vehiculo.id,
+                //               userId: service.user.id,
+                //               isLogin: 0,
+                //               message: 'Terminar Recorrido');
+                //           stopTimer();
+                //         },
+                //       )
+                //     : const SizedBox(),
+              // ],
+            // ),
             Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 isRunning ? buildTime() : const SizedBox(),
-                const SizedBox(height: 10),
-                !isRunning
-                    ? MaterialButton(
-                        minWidth: size.width - 250,
-                        child: const Text(
-                          'Empezar Recorrido',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        color: Colors.white,
-                        elevation: 0,
-                        height: 50,
-                        shape: const StadiumBorder(),
-                        onPressed: () {
-                          recorridoService.setActive(true);
-                          DriversService.inService(
-                              vehicleId: service.vehiculo.id,
-                              userId: service.user.id,
-                              isLogin: 1,
-                              message: 'Empezar Recorrido');
-                          startTimer();
-                        },
-                      )
-                    : const SizedBox(),
+                // buildTime(),
+                // buildTime(),
+                // buildTime(),
                 isRunning
                     ? MaterialButton(
                         minWidth: size.width - 250,
@@ -167,17 +177,39 @@ class _StatusViewState extends State<StatusView> {
                               userId: service.user.id,
                               isLogin: 0,
                               message: 'Terminar Recorrido');
-                          debugPrint('Terminar Recorrido---------------');
                           stopTimer();
                         },
                       )
-                    : const SizedBox(),
+                    : MaterialButton(
+                        minWidth: size.width - 250,
+                        child: const Text(
+                          'Empezar Recorrido',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        color: Colors.white,
+                        elevation: 0,
+                        height: 50,
+                        shape: const StadiumBorder(),
+                        onPressed: () {
+                          recorridoService.setActive(true);
+                          DriversService.inService(
+                              vehicleId: service.vehiculo.id,
+                              userId: service.user.id,
+                              isLogin: 1,
+                              message: 'Empezar Recorrido');
+                          startTimer();
+                        },
+                      ),
               ],
             ),
-            Row(
+            Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                 BtnLogOut(stopTimer: stopTimer), 
+                const SizedBox(),
+                BtnLogOut(stopTimer: stopTimer),
               ],
             ),
           ],

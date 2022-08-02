@@ -23,7 +23,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       ));
     });
     
-    // on<OnUpdateLocationHistoryEvent>((event, emit) => emit(state.copyWith(myLocationHistory: event.newHistory)));
+    on<OnUpdateLocationHistoryEvent>((event, emit) => emit(state.copyWith(myLocationHistory: event.newHistory)));
 
   }
 

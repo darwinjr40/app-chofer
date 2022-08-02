@@ -61,7 +61,7 @@ class _MapScreenState extends State<MapScreen> {
                       polylines: polylines.values.toSet(),
                     ),
                     const Positioned(
-                      bottom: 30,
+                      bottom: 24,
                       left: 10,
                       // child: IconButton(
                       //   icon: const Icon(Icons.send),
@@ -74,7 +74,6 @@ class _MapScreenState extends State<MapScreen> {
                       //     print('timer  $currentLat , $currentLong');
                       //   },
                       // ),
-                      // child: statusView,
                       child: statusView,
                     ),
                   ],
@@ -88,12 +87,6 @@ class _MapScreenState extends State<MapScreen> {
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          // Column(
-          //   mainAxisAlignment: MainAxisAlignment.end,
-          //   children:  [
-          //     BtnLogOut(stopTimer: () {}),
-          //   ],
-          // ),
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: const [

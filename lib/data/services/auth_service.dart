@@ -65,13 +65,11 @@ class AuthService extends ChangeNotifier {
     final url = '$_baseUrl/vehicles/ruta/${vehiculo.id}';
     final resp = await http.get(Uri.parse(url));
     final jsonResponse = json.decode(resp.body);
-    // debugPrint(jsonResponse.toString());
-    // debugPrint('------------------------------');
     Ruta data = Ruta.fromMap(jsonResponse);
 
     Polyline lineaRutaIda = Polyline(
         polylineId: const PolylineId('ida'),
-        color: Colors.green,
+        color: Colors.green.withOpacity(0.7),
         width: 6,
         startCap: markerStart,
         endCap: marketFin,
@@ -79,7 +77,7 @@ class AuthService extends ChangeNotifier {
         patterns: listaPatterns);
     Polyline lineaRutaVuelta = Polyline(
         polylineId: const PolylineId('vuelta'),
-        color: Colors.red,
+        color: Colors.red.withOpacity(0.7),
         width: 6,
         startCap: markerStart,
         endCap: marketFin,

@@ -14,19 +14,16 @@ class LoadingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final service = Provider.of<AuthService>(context);
     final mapbloc = BlocProvider.of<MapBloc>(context, listen: false);
-    // final locationBloc = BlocProvider.of<LocationBloc>(context, listen: false);
-    if (service.isLoading) {
-      // if (locationBloc.state.lastKnownLocation != null) {
-      //    debugPrint('se actualizo routas true');
-      //   // final currentLat = locationBloc.state.lastKnownLocation!.latitude;
-      //   // final currentLong = locationBloc.state.lastKnownLocation!.longitude;
-      //   locationBloc.add(const OnUpdateLocationHistoryEvent([]));
-      // }
-      // if (service.vehiculo.routes) {
-
-      // }
-      return const CircularProgressIndicator();
+    final locationBloc = BlocProvider.of<LocationBloc>(context, listen: false);
+    if (service.isLoading) {      
+      return const Center(child: CircularProgressIndicator.adaptive());
     } else {
+      if (locationBloc.state.lastKnownLocation != null) {
+         debugPrint('se actualizo routas true');
+        // final currentLat = locationBloc.state.lastKnownLocation!.latitude;
+        // final currentLong = locationBloc.state.lastKnownLocation!.longitude;
+        locationBloc.add(const OnUpdateLocationHistoryEvent([]));
+      }
       mapbloc.add(OnAddPolylinesEvent(service.vehiculo.routes!));
       debugPrint('se actualizo routas--Loading');
     }
