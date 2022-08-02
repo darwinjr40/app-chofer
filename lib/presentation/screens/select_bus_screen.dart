@@ -13,7 +13,7 @@ class SelectBusScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final busServices = Provider.of<BusService>(context);
+    final busServices = Provider.of<RecorridoService>(context);
     VehicleService vehicleServices = Provider.of<VehicleService>(context);
 
     // if (busServices.isLoading) {

@@ -17,12 +17,8 @@ class AuthService extends ChangeNotifier {
   final storage = const FlutterSecureStorage();
   late bool isLoading;
 
-  late bool isActive = false;
+
   
-  void setActive(bool x) {
-    isActive = x;
-    notifyListeners();
-  }
 
   Future<String?> login(String email, String password) async {
     final resp = await http.post(Uri.parse('$_baseUrl/auth/login'),

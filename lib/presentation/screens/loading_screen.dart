@@ -15,23 +15,24 @@ class LoadingScreen extends StatelessWidget {
     final service = Provider.of<AuthService>(context);
     final mapbloc = BlocProvider.of<MapBloc>(context, listen: false);
     // final locationBloc = BlocProvider.of<LocationBloc>(context, listen: false);
+    if (service.isLoading) {
+      // if (locationBloc.state.lastKnownLocation != null) {
+      //    debugPrint('se actualizo routas true');
+      //   // final currentLat = locationBloc.state.lastKnownLocation!.latitude;
+      //   // final currentLong = locationBloc.state.lastKnownLocation!.longitude;
+      //   locationBloc.add(const OnUpdateLocationHistoryEvent([]));
+      // }
+      // if (service.vehiculo.routes) {
 
+      // }
+      return const CircularProgressIndicator();
+    } else {
+      mapbloc.add(OnAddPolylinesEvent(service.vehiculo.routes!));
+      debugPrint('se actualizo routas--Loading');
+    }
     return Scaffold(body: BlocBuilder<GpsBloc, GpsState>(
       builder: (context, state) {
         if (state.isAllGranted) {
-          if (!service.isLoading ) {
-            // if (locationBloc.state.lastKnownLocation != null) {
-            //    debugPrint('se actualizo routas true');
-            //   // final currentLat = locationBloc.state.lastKnownLocation!.latitude;
-            //   // final currentLong = locationBloc.state.lastKnownLocation!.longitude;
-            //   locationBloc.add(const OnUpdateLocationHistoryEvent([]));
-            // }
-            // if (service.vehiculo.routes) {
-              
-            // }
-            mapbloc.add(OnAddPolylinesEvent(service.vehiculo.routes!));
-            debugPrint('se actualizo routas--Loading');
-          }
           return const MapScreen();
         } else {
           return const GpsAccessScreen();

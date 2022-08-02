@@ -14,8 +14,9 @@ class BtnLogOut extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final service = Provider.of<AuthService>(context);
+    final recorridoService = Provider.of<RecorridoService>(context);
     final locationBloc = BlocProvider.of<LocationBloc>(context, listen: false);
-    bool sw = service.isActive;
+    bool sw = recorridoService.isActive;
 
     return Container(
       margin: const EdgeInsets.only(left: 10),
@@ -30,7 +31,6 @@ class BtnLogOut extends StatelessWidget {
           onPressed: () {
             if (sw) {
               debugPrint('GetContainerT');
-              // stopTimer();
               showLoguotDialog(context, service, stopTimer);
               debugPrint('GetContainerT1');
             } else {
@@ -52,7 +52,7 @@ void showLoguotDialog(
     BuildContext context, AuthService service, Function stopTimer) {
   final _textController = TextEditingController();
   final locationBloc = BlocProvider.of<LocationBloc>(context, listen: false);
-
+    final recorridoService = Provider.of<RecorridoService>(context, listen: false);
   showDialog(
       context: context,
       barrierDismissible: false,
@@ -94,7 +94,7 @@ void showLoguotDialog(
                       userId: service.user.id,
                       isLogin: 0,
                       message: _textController.text);
-                  service.setActive(false);
+                  recorridoService.setActive(false);
                   locationBloc.add(OnStopFollowingUser());
                   service.loguot();
                   Navigator.pushReplacementNamed(context, 'login');

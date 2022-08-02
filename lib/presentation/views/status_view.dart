@@ -108,7 +108,8 @@ class _StatusViewState extends State<StatusView> {
   Widget build(BuildContext context) {
     final isRunning = timer == null ? false : timer!.isActive;
     final size = MediaQuery.of(context).size;
-    final service = Provider.of<AuthService>(context);
+    final service = Provider.of<AuthService>(context, listen: false);
+    final recorridoService = Provider.of<RecorridoService>(context, listen: false);
 
     return FadeInUp(
       child: Center(
@@ -135,7 +136,7 @@ class _StatusViewState extends State<StatusView> {
                         height: 50,
                         shape: const StadiumBorder(),
                         onPressed: () {
-                          service.setActive(true);
+                          recorridoService.setActive(true);
                           DriversService.inService(
                               vehicleId: service.vehiculo.id,
                               userId: service.user.id,
@@ -160,7 +161,7 @@ class _StatusViewState extends State<StatusView> {
                         height: 50,
                         shape: const StadiumBorder(),
                         onPressed: () {
-                          service.setActive(false);
+                          recorridoService.setActive(false);
                           DriversService.inService(
                               vehicleId: service.vehiculo.id,
                               userId: service.user.id,
@@ -176,7 +177,7 @@ class _StatusViewState extends State<StatusView> {
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                 BtnLogOut(stopTimer: (){}), 
+                 BtnLogOut(stopTimer: stopTimer), 
               ],
             ),
           ],
