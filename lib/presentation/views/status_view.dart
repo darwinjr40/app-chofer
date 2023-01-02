@@ -53,6 +53,11 @@ class _StatusViewState extends State<StatusView> {
     setState(() {
       timer?.cancel();
     });
+    final locationBloc = BlocProvider.of<LocationBloc>(context);
+    final service = Provider.of<AuthService>(context, listen: false);
+    updateLocation(locationBloc, service, 0);
+
+
   }
 
   void startTimer({bool resets = true}) {
@@ -62,35 +67,28 @@ class _StatusViewState extends State<StatusView> {
     if (resets) {
       reset();
     }
+    updateLocation(locationBloc, service, 1);
+    timer = Timer.periodic(const Duration(seconds: 1), (_) {
+      addTime();
+      if (duration.inSeconds % 5 == 0) {
+        updateLocation(locationBloc, service, 1);
+      }
+    });
+  }
+
+  void updateLocation(LocationBloc locationBloc, AuthService service, int status) {
     if (locationBloc.state.lastKnownLocation != null) {
       final currentLat = locationBloc.state.lastKnownLocation!.latitude;
       final currentLong = locationBloc.state.lastKnownLocation!.longitude;
-      debugPrint(
-          '${service.user.id}/${service.vehiculo.id}/$currentLat/$currentLong');
+      debugPrint('${service.user.id}/${service.vehiculo.id}/$currentLat/$currentLong');
       DriversService.updateLocation(
         userId: '${service.user.id}',
         vehiculeId: '${service.vehiculo.id}',
         latitude: currentLat,
         longitud: currentLong,
+        status: status,
       );
     }
-    timer = Timer.periodic(const Duration(seconds: 1), (_) {
-      addTime();
-      if (duration.inSeconds % 5 == 0) {
-        if (locationBloc.state.lastKnownLocation != null) {
-          final currentLat = locationBloc.state.lastKnownLocation!.latitude;
-          final currentLong = locationBloc.state.lastKnownLocation!.longitude;
-          debugPrint(
-              '${service.user.id}/${service.vehiculo.id}/$currentLat/$currentLong');
-          DriversService.updateLocation(
-            userId: '${service.user.id}',
-            vehiculeId: '${service.vehiculo.id}',
-            latitude: currentLat,
-            longitud: currentLong,
-          );
-        }
-      }
-    });
   }
 
   Widget buildTime() {

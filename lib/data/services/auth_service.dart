@@ -5,12 +5,12 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:micros_app/data/models/models.dart';
+import 'package:micros_app/data/services/services.dart';
 
 // ! por ahora va a estar referenciado a uno de mis proyectos que tengo arriba
 // ! cuando este la api de login lista lo cambio
 
 class AuthService extends ChangeNotifier {
-  final String _baseUrl = "https://supportficct.ga/sig_backend/public/api";
   late User user;
   late List<Vehiculo> listaVehiculos;
   late Vehiculo vehiculo;
@@ -21,7 +21,8 @@ class AuthService extends ChangeNotifier {
   
 
   Future<String?> login(String email, String password) async {
-    final resp = await http.post(Uri.parse('$_baseUrl/auth/login'),
+    const url = Env.baseUrl + 'auth/login';
+    final resp = await http.post(Uri.parse(url),
         body: ({
           'email': email,
           'password': password,
@@ -62,7 +63,7 @@ class AuthService extends ChangeNotifier {
       PatternItem.dash(20.0),
       PatternItem.gap(30.0),
     ];
-    final url = '$_baseUrl/vehicles/ruta/${vehiculo.id}';
+    final url = Env.baseUrl + 'vehicles/ruta/${vehiculo.id}';    
     final resp = await http.get(Uri.parse(url));
     final jsonResponse = json.decode(resp.body);
     Ruta data = Ruta.fromMap(jsonResponse);

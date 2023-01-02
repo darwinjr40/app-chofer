@@ -3,9 +3,10 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:micros_app/data/models/models.dart';
+import 'package:micros_app/data/services/services.dart';
 
 class VehicleService extends ChangeNotifier {
-  final String _baseUrl = 'https://supportficct.ga/sig_backend/api/';
+  // final String _baseUrl = 'https://supportficct.ga/sig_backend/api/';
   List<Vehicle> listaVehicles = []; //30 vehiculos para la linea 1
   late Vehicle selectedVehicle;
   bool isLoading = true;
@@ -20,8 +21,8 @@ class VehicleService extends ChangeNotifier {
         'loadVehicle------------------------------------------------------------');
     listaVehicles = [];
     isLoading = true;
-    notifyListeners();
-    final url = (_baseUrl + 'vehicles/vehiculos-user/$i');
+    notifyListeners();    
+    final url = ( Env.baseUrl + 'vehicles/vehiculos-user/$i');
     final resp = await http.get(Uri.parse(url));
     final jsonResponse = json.decode(resp.body);
     for (var item in jsonResponse) {
@@ -32,8 +33,7 @@ class VehicleService extends ChangeNotifier {
     notifyListeners();
     debugPrint('fuera del for $i');
     debugPrint('$listaVehicles');
-    debugPrint(
-        'loadVehicle------------------------------------------------------------');
+    debugPrint('loadVehicle------------------------------------------------------------');
     return listaVehicles;
   }
 
