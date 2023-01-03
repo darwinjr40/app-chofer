@@ -1,10 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:micros_app/data/blocs/blocs.dart';
+import 'package:micros_app/data/models/models.dart';
+import 'package:micros_app/data/services/driver_service.dart';
+import 'package:micros_app/data/services/push_notifications_service.dart';
 import 'package:micros_app/presentation/themes/themes.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -32,6 +36,8 @@ class MapBloc extends Bloc<MapEvent, MapState> {
         emit(state.copyWith(showVehicleRoute: !state.showVehicleRoute)));
 
     on<OnAddPolylinesEvent>(_onAddPolylines);
+
+    on<OnUpdateDriverEvent>((event, emit) => emit(state.copyWith(driver: event.driverAux)));
 
     locationStateSubscription = locationBloc.stream.listen((locationState) {
       if (locationState.lastKnownLocation != null) {
@@ -98,11 +104,25 @@ class MapBloc extends Bloc<MapEvent, MapState> {
         // add(const UpdateUserPolylineEvent( []));
         // add(UpdateUserPolylineEvent([locationState.lastKnownLocation!]));
         
-      //   add(UpdateUserPolylineEvent(locationState.myLocationHistory));
+    //   add(UpdateUserPolylineEvent(locationState.myLocationHistory));
       // }
       // if (!state.isFollowingUser) return;
       // if (locationState.lastKnownLocation == null) return;
       // moveCamera(locationState.lastKnownLocation!);
     // });
   }
+
+  void loadDriver(int idUser, int idVehicle) async{
+    Driver? driver = await DriversService.getbyId(idUser, idVehicle);
+    if (driver != null) {
+      if (PushNotificationService.token != null) {
+        driver.token = PushNotificationService.token;        
+        DriversService.update(driver.id, driver.toMapString());
+      }
+      add(OnUpdateDriverEvent(driver));
+      debugPrint('LOADDRIVER: --------${driver.toString()}');
+    } 
+  }
+
+  
 }

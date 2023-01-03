@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:micros_app/data/blocs/blocs.dart';
+import 'package:micros_app/data/services/services.dart';
 import 'package:micros_app/presentation/views/views.dart';
 import 'package:micros_app/presentation/widgets/widgets.dart';
+import 'package:provider/provider.dart';
 
 class MapScreen extends StatefulWidget {
+  
   const MapScreen({Key? key}) : super(key: key);
 
   @override
@@ -14,14 +17,20 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
+  
   late LocationBloc locationBloc;
-
+  late MapBloc mapBloc;
+  late AuthService authService;
+  
   @override
   void initState() {
     super.initState();
     locationBloc = BlocProvider.of<LocationBloc>(context);
+    mapBloc = BlocProvider.of<MapBloc>(context);
+    authService = Provider.of<AuthService>(context, listen: false);
     // locationBloc.getCurrentPosition();
     locationBloc.startFollowingUser();
+    mapBloc.loadDriver(authService.user.id, authService.vehiculo.id);      
   }
 
   @override

@@ -5,3 +5,4 @@ export 'package:micros_app/data/services/vehicle_services.dart';
 
 export 'package:micros_app/data/services/driver_service.dart';
 export 'package:micros_app/data/services/env.dart';
+export 'package:micros_app/data/services/push_notifications_service.dart';

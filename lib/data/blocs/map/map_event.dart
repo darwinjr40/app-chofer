@@ -38,3 +38,8 @@ class OnAddPolylinesEvent extends MapEvent {
 
   const OnAddPolylinesEvent(this.aux);
 }
+
+class OnUpdateDriverEvent extends MapEvent {
+  final Driver driverAux;
+  const OnUpdateDriverEvent(this.driverAux);
+}

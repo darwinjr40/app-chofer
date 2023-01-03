@@ -62,6 +62,7 @@ class Driver {
     int? vehicleId,
     DateTime? createdAt,
     DateTime? updatedAt,
+    String? token
   }) =>
       Driver(
         id: id ?? this.id,
@@ -75,6 +76,7 @@ class Driver {
         vehicleId: vehicleId ?? this.vehicleId,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
+        token: token ?? this.token,
       );
 
   factory Driver.fromJson(String str) => Driver.fromMap(json.decode(str));
@@ -103,14 +105,35 @@ class Driver {
   Map<String, dynamic> toMap() => {
         "id": id,
         "inDate": inDate,
-        "outDate": outDate == null ? null : createdAt!.toIso8601String(),
+        "outDate": outDate ?? "-",
         "taken": taken,
         "status": status,
         "currentLat": currentLat,
         "currentLong": currentLong,
         "user_id": userId,
         "vehicle_id": vehicleId,
-        "created_at": createdAt == null ? null : createdAt!.toIso8601String(),
-        "updated_at": updatedAt == null ? null : updatedAt!.toIso8601String(),
-      };
+        "created_at": createdAt ?? "-",
+        "updated_at": updatedAt ?? "-",
+        "token": token ?? "-"
+  };
+
+  Map<String, String> toMapString() => {
+        "id": '$id',
+        "inDate": inDate,
+        "outDate": outDate ?? "-",
+        "taken": '$taken',
+        "status": '$status',
+        "currentLat": '$currentLat',
+        "currentLong": '$currentLong',
+        "user_id": '$userId',
+        "vehicle_id": '$vehicleId',
+        "created_at": createdAt?.toIso8601String() ?? "-",
+        "updated_at": updatedAt?.toIso8601String() ?? "-",
+        "token": token ?? "-",
+  };
+
+  @override
+  String toString() {    
+    return 'id:$id, inDate:$inDate, outDate:$outDate, taken:$taken, status:$status, currentLat:$currentLat, currentLong:$currentLong, userId:$userId, vehicleId:$vehicleId, createdAt:$createdAt, updatedAt:$updatedAt, token:$token ';
+  }
 }

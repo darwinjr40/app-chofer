@@ -11,6 +11,7 @@ class SelectVehicleScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final service = Provider.of<AuthService>(context);
+    debugPrint('LISTA DE VEHICULOS: ${service.listaVehiculos.length}----------------');
     return Scaffold(
       appBar: AppBar(
         title: const Text("Lista de Vehiculos"),
@@ -26,31 +27,47 @@ class SelectVehicleScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: ListView.builder(
-        // reverse: true,
-        // separatorBuilder: (_, __) => const Divider(height: 30),
-        itemCount: service.listaVehiculos.length,
-        itemBuilder: (context, index) => ListTile(
-          title: Text('Vehiculo ${service.listaVehiculos[index].id}',
-              style: const TextStyle(color: Colors.black)),
-          subtitle: Text('Placa ${service.listaVehiculos[index].plate}'),
-          leading: const Icon(
-            Icons.directions_bus_outlined,
-            color: Colors.black,
-          ),
-          trailing: const Icon(
-            Icons.arrow_forward_ios_sharp,
-            color: Colors.black,
-          ),
-          // onTap: _load(context, service, index),
-          onTap: () async {
-            service.vehiculo = service.listaVehiculos[index];
-            service.loadRutas();
-            Navigator.pushReplacementNamed(context, 'loading');
-          },
-        ),
-      ),
+      body: (service.listaVehiculos.isEmpty)
+            ? const Center(child: Text("NO HAY VEHICULOS DISPONIBLES"))
+            : ListVehicles(service: service)  ,
       // separatorBuilder: (_, __) => const SizedBox(height: 5),
+    );
+  }
+}
+
+class ListVehicles extends StatelessWidget {
+  const ListVehicles({
+    Key? key,
+    required this.service,
+  }) : super(key: key);
+
+  final AuthService service;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      // reverse: true,
+      // separatorBuilder: (_, __) => const Divider(height: 30),
+      itemCount: service.listaVehiculos.length,
+      itemBuilder: (context, index) => ListTile(
+        title: Text('Vehiculo ${service.listaVehiculos[index].id}',
+            style: const TextStyle(color: Colors.black)),
+        subtitle: Text('Placa ${service.listaVehiculos[index].plate}'),
+        leading: const Icon(
+          Icons.directions_bus_outlined,
+          color: Colors.black,
+        ),
+        trailing: const Icon(
+          Icons.arrow_forward_ios_sharp,
+          color: Colors.black,
+        ),
+        // onTap: _load(context, service, index),
+        onTap: () async {
+          service.vehiculo = service.listaVehiculos[index];
+          service.loadRutas();
+          Navigator.pushReplacementNamed(context, 'loading');
+        },
+      ),
     );
   }
 }

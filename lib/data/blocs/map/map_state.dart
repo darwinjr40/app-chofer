@@ -7,6 +7,7 @@ class MapState extends Equatable {
   final bool showMyRoute;
   final bool showVehicleRoute;
 
+  final Driver? driver;
   // * Esta variable polylines es una lista de rutas es un map para que el string sea
   // * el nombre de la ruta y el polyline sea la linea a dibujar
 
@@ -18,6 +19,7 @@ class MapState extends Equatable {
     this.showMyRoute = true,
     this.showVehicleRoute = true,
     Map<String, Polyline>? polylines,
+    this.driver
   }) : polylines = polylines ?? const {};
 
   MapState copyWith({
@@ -26,6 +28,7 @@ class MapState extends Equatable {
     bool? showMyRoute,
     bool? showVehicleRoute,
     Map<String, Polyline>? polylines,
+    Driver? driver,
   }) =>
       MapState(
         isMapInitialized: isMapInitialized ?? this.isMapInitialized,
@@ -33,14 +36,16 @@ class MapState extends Equatable {
         showMyRoute: showMyRoute ?? this.showMyRoute,
         showVehicleRoute: showVehicleRoute ?? this.showVehicleRoute,
         polylines: polylines ?? this.polylines,
+        driver: driver ?? this.driver,
       );
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         isMapInitialized,
         isFollowingUser,
         polylines,
         showVehicleRoute,
         showMyRoute,
+        driver,
       ];
 }

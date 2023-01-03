@@ -1,10 +1,14 @@
 
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+import 'package:micros_app/data/models/driver_model.dart';
 import 'package:micros_app/data/services/services.dart';
 
 class DriversService {
   static bool estado = false;
+  static String token = '';
   
 
   static void updateLocation({
@@ -53,23 +57,40 @@ class DriversService {
     // debugPrint(decodedResp.toString());
   }
 
-  static Future<void> update(String id,Map<String, dynamic> data) async {
+  static Future<void> update(int id, Map<String, String> data) async {
     try {
-      // return _ref.doc(travelInfo.id).set(travelInfo.toJson());
-      debugPrint(data.toString());
       final url = '${Env.baseUrl}drivers/update/$id';
       final resp = await http.put(
         Uri.parse(url),
         headers: {'Accept' : 'application/json'},
         body: data,
       );
-      // final Map<String, dynamic> decodedResp = json.decode(resp.body);
       if (resp.statusCode != 200) {
         debugPrint('ERROR <DriversService>update: ${resp.body}');
       }            
     } catch(error) {
-      debugPrint(error.toString());
+      debugPrint('ERROR TRY CATCH <DriversService>update: ${error.toString()}');
       return Future.error(error.toString());
     }    
+  }
+
+
+  static Future<Driver?> getbyId(int idUser, int idVehicle) async {
+    Driver? driver;
+    try {
+      final url = '${Env.baseUrl}drivers/get/$idUser/$idVehicle';
+      final resp = await http.get(
+        Uri.parse(url),
+        headers: {'Accept' : 'application/json'},
+      );
+      if (resp.statusCode == 200) {
+        driver = Driver.fromJson(resp.body);
+      } else {
+        debugPrint('ERROR <DriversService>getbyId: ${resp.body}');
+      }           
+    } catch(error) {
+      debugPrint('ERROR TRY CATCH <DriversService>getbyId: ${error.toString()}');
+    }    
+      return driver;
   }
 }

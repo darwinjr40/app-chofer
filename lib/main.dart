@@ -6,7 +6,9 @@ import 'package:micros_app/data/blocs/blocs.dart';
 import 'package:micros_app/business/router/app_routes.dart';
 import 'package:micros_app/data/services/services.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await PushNotificationService.initializeApp();
   runApp(
     // ! Declaro los Bloc que se pueden usar en toda la app
     MultiBlocProvider(
@@ -45,8 +47,29 @@ class AppState extends StatelessWidget {
 
 // * El tema de la app lo puse estatico con Light, si alguin quiere se da el tiempo y hace un personalizado
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+  final GlobalKey<NavigatorState> navigatorKey =  GlobalKey<NavigatorState>();
+  final GlobalKey<ScaffoldMessengerState> messengerKey =  GlobalKey<ScaffoldMessengerState>();
+    
+  @override
+  void initState() {
+    super.initState();
+  // Context!
+      PushNotificationService.messagesStream.listen((message) { 
+        // print('MyApp: $message');
+        navigatorKey.currentState?.pushNamed('message', arguments: message);        
+        final snackBar = SnackBar(content: Text(message));
+        messengerKey.currentState?.showSnackBar(snackBar);
+      }); 
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +80,9 @@ class MyApp extends StatelessWidget {
       routes: AppRoutes.getAppRoutes(),
       onGenerateRoute: AppRoutes.onGenerateRoute,
       theme: ThemeData.light(),
-      scaffoldMessengerKey: NotificationsService.messengerKey,
+      // scaffoldMessengerKey: NotificationsService.messengerKey,
+      scaffoldMessengerKey: messengerKey, // Snacks
+      navigatorKey: navigatorKey, // Navegar
     );
   }
 }
