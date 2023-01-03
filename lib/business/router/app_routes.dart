@@ -27,6 +27,12 @@ class AppRoutes {
       screen: const MapScreen(),
       icon: Icons.map_outlined,
     ),
+    MenuOption(
+      route: 'drive/travel/request',
+      name: 'driver solicitud Screen',
+      screen:  const DriverTravelRequestPage(),
+      icon: Icons.map_outlined,
+    ),
   ];
 
   static Map<String, Widget Function(BuildContext)> getAppRoutes() {

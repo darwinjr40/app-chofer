@@ -12,3 +12,4 @@ export 'package:micros_app/presentation/widgets/button.dart';
 export 'package:micros_app/presentation/widgets/input_field.dart';
 export 'package:micros_app/presentation/widgets/date_field.dart';
 export 'package:micros_app/presentation/widgets/password_field.dart';
+export 'package:micros_app/presentation/widgets/btn_solicit.dart';
