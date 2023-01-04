@@ -9,3 +9,4 @@ export 'package:micros_app/presentation/screens/select_bus_screen.dart';
 export 'package:micros_app/presentation/screens/select_vehicle_screen.dart';
 export 'package:micros_app/presentation/screens/register_screen.dart';
 export 'package:micros_app/presentation/screens/travel_request/driver_travel_request_page.dart';
+export 'package:micros_app/presentation/screens/travel_map/driver_travel_map_page.dart';

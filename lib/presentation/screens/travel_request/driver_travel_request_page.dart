@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:micros_app/env.dart';
+import 'package:micros_app/presentation/screens/travel_request/driver_travel_request_controller.dart';
 // import 'package:uber_clone_flutter_udemy/src/utils/colors.dart' as utils;
 import 'package:micros_app/presentation/widgets/widgets.dart';
 
@@ -8,17 +11,32 @@ class DriverTravelRequestPage extends StatefulWidget {
   const DriverTravelRequestPage({Key? key}) : super(key: key);
 
   @override
-  _DriverTravelRequestPageState createState() => _DriverTravelRequestPageState();
+  DriverTravelRequestPageState createState() => DriverTravelRequestPageState();
 }
 
-class _DriverTravelRequestPageState extends State<DriverTravelRequestPage> {
+class DriverTravelRequestPageState extends State<DriverTravelRequestPage> {
+
+  final DriverTravelRequestController _con = DriverTravelRequestController();
+  @override
+  void dispose() {
+    super.dispose();
+    _con.dispose();
+  }
+  @override
+  void initState() {
+    super.initState();
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+      _con.init(context, refresh);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
           _bannerClientInfo(),
-          _textFromTo('Carrera falsa con calle falsa', 'Carrera falsa con calle falsa'),
+          _textFromTo(_con.from, _con.to),
           _textTimeLimit()
         ],
       ),
@@ -37,7 +55,7 @@ class _DriverTravelRequestPageState extends State<DriverTravelRequestPage> {
           Container(
             width: MediaQuery.of(context).size.width * 0.45,
             child: BtnSolicit(
-              onPressed: () {},
+              onPressed: _con.cancelTravel,
               text: 'Cancelar',
               color: Colors.red,
               textColor: Colors.white,
@@ -48,7 +66,7 @@ class _DriverTravelRequestPageState extends State<DriverTravelRequestPage> {
           Container(
             width: MediaQuery.of(context).size.width * 0.45,
             child: BtnSolicit(
-              onPressed: () {},
+              onPressed: _con.acceptTravel,
               text: 'Aceptar',
               color: Colors.cyan,
               textColor: Colors.white,
@@ -63,9 +81,9 @@ class _DriverTravelRequestPageState extends State<DriverTravelRequestPage> {
   Widget _textTimeLimit() {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 30),
-      child: const Text(
-          '0',
-        style: TextStyle(
+      child:  Text(
+          _con.seconds.toString(),
+        style: const TextStyle(
           fontSize: 50
         ),
       ),
@@ -104,7 +122,7 @@ class _DriverTravelRequestPageState extends State<DriverTravelRequestPage> {
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 30),
             child: Text(
-              from,
+              to,
               style: const TextStyle(
                 fontSize: 17
               ),
@@ -145,4 +163,11 @@ class _DriverTravelRequestPageState extends State<DriverTravelRequestPage> {
       ),
     );
   }
+
+  void refresh() {
+    setState(() {
+
+    });
+  }
+
 }

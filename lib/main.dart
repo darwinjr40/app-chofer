@@ -65,10 +65,10 @@ class _MyAppState extends State<MyApp> {
   // Context!
       PushNotificationService.messagesStream.listen((message) { 
         // print('MyApp: $message');
-        navigatorKey.currentState?.pushNamed('message', arguments: message);        
-        final snackBar = SnackBar(content: Text(message));
+        navigatorKey.currentState?.pushNamed('drive/travel/request', arguments: message);
+        final snackBar = SnackBar(content: Text(message.toString()));
         messengerKey.currentState?.showSnackBar(snackBar);
-      }); 
+      });
   }
 
   @override
@@ -78,7 +78,7 @@ class _MyAppState extends State<MyApp> {
       title: 'Micros Online',
       initialRoute: AppRoutes.initialRoute,
       routes: AppRoutes.getAppRoutes(),
-      onGenerateRoute: AppRoutes.onGenerateRoute,
+      // onGenerateRoute: AppRoutes.onGenerateRoute,
       theme: ThemeData.light(),
       // scaffoldMessengerKey: NotificationsService.messengerKey,
       scaffoldMessengerKey: messengerKey, // Snacks
