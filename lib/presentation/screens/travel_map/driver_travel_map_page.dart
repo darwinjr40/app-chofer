@@ -22,7 +22,7 @@ class DriverTravelMapPageState extends State<DriverTravelMapPage> {
 
   final DriverTravelMapController _con = DriverTravelMapController();
 
-late LocationBloc locationBloc;
+  late LocationBloc locationBloc;
   late MapBloc mapBloc;
   late AuthService authService;
   
@@ -44,6 +44,7 @@ late LocationBloc locationBloc;
   void dispose() {
     locationBloc.stopFollowingUser();
     super.dispose();
+    _con.dispose();
   }
 
   @override
@@ -64,18 +65,13 @@ late LocationBloc locationBloc;
               if (mapState.showMyRoute) {
                 polylines.removeWhere((key, value) => key == 'myRoute');
               }
-              // if (mapState.showVehicleRoute) {
-              //   polylines.removeWhere((key, value) => key == 'vuelta');
-              // } else {
-              //   polylines.removeWhere((key, value) => key == 'ida');
-              // }
 
               return SingleChildScrollView(
                 child: Stack(
                   children: [
                     MapView(
                       initialLocation: locationState.lastKnownLocation!,
-                      polylines: polylines.values.toSet(),
+                      polylines: _con.polylines,
                       markers: Set<Marker>.of(_con.markers.values),
                     ),
                     // const Positioned(
@@ -92,8 +88,8 @@ late LocationBloc locationBloc;
                               _buttonUserInfo(),
                               // Column(
                               //   children: [
-                                  _cardKmInfo('0'),
-                                  _cardMinInfo('0')
+                                  _cardKmInfo(_con.km.toString()),
+                                  _cardMinInfo(_con.seconds.toString())
                               //   ],
                               // ),
                             ],
@@ -205,10 +201,10 @@ late LocationBloc locationBloc;
       alignment: Alignment.bottomCenter,
       margin: const EdgeInsets.symmetric(horizontal: 60, vertical: 30),
       child: BtnSolicit(
-        onPressed: () {},
-        text: 'INICIAR VIAJE',
-        color: Colors.black,
-        textColor: Colors.white,
+        onPressed: _con.updateStatus,
+        text: _con.currentStatus,
+        color: _con.colorStatus,
+        textColor: Colors.black,
       ),
     );
   }

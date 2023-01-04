@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' show LatLng;
 
@@ -39,6 +40,8 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
         position.latitude,
         position.longitude,
       )));
+      debugPrint('startFollowingUser');
+      debugPrint('${state.myLocationHistory.length}');
     });
   }
 

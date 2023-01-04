@@ -33,7 +33,11 @@ class DriverTravelMapController{
   late List<LatLng> points;
   late LocationBloc locationBloc;
   late MapBloc mapBloc;
-
+  late Timer timer;
+  late Timer _timer;
+  late int seconds = 0;
+  late double mt = 0;
+  late double km = 0;
   // GeofireProvider _geofireProvider;
   // AuthProvider _authProvider;
   // DriverProvider _driverProvider;
@@ -47,24 +51,32 @@ class DriverTravelMapController{
 
   late Driver driver;
   late String _idTravel;
+  late TravelInfo? travelInfo;
   late BitmapDescriptor fromMarker;
   late BitmapDescriptor toMarker;
+  late bool isStartTravel;
+  late double _distanceBetween;
+  String currentStatus = 'INICIAR VIAJE';
+  Color colorStatus = Colors.amber;
+  //constructor
   DriverTravelMapController(){
     polylines = {};
     points = [];
     _idTravel ='';
+    isStartTravel = false;
   }
 
   Future init(BuildContext context, Function refresh) async {
-    this.context = context;
-    this.refresh = refresh;
-    locationBloc = BlocProvider.of<LocationBloc>(context);
-    mapBloc = BlocProvider.of<MapBloc>(context);
     try {
+      this.context = context;
+      this.refresh = refresh;
+      locationBloc = BlocProvider.of<LocationBloc>(context);
+      mapBloc = BlocProvider.of<MapBloc>(context);
       _idTravel = ModalRoute.of(context)?.settings.arguments as String;
-      getTravelInfo();
       fromMarker = await createMarkerImageFromAsset('assets/img/map_pin_red.png');
       toMarker = await createMarkerImageFromAsset('assets/img/map_pin_blue.png'); 
+      getTravelInfo();
+      initTimer();
     } catch (error) {
       debugPrint('ERROR <DriverTravelMapController> INIT $error');
     }
@@ -78,20 +90,82 @@ class DriverTravelMapController{
     // getDriverInfo();
   }
 
-  void getDriverInfo() {
-    // Stream<DocumentSnapshot> driverStream = _driverProvider.getByIdStream(_authProvider.getUser().uid);
-    // _driverInfoSuscription = driverStream.listen((DocumentSnapshot document) {
-    //   driver = Driver.fromJson(document.data());
-      refresh();
-    // });
+  void isCloseToPickupPosition(LatLng from, LatLng to) {
+    _distanceBetween = Geolocator.distanceBetween(
+        from.latitude,
+        from.longitude,
+        to.latitude,
+        to.longitude
+    );
+    print('------ DISTANCE: $_distanceBetween--------');
   }
 
-  void getTravelInfo() async{
-    debugPrint('NISE--------------------$_idTravel');
-    TravelInfo? travelInfo = await TravelInfoService.getbyId(_idTravel);
+  void updateStatus () {
     if (travelInfo != null) {
-      LatLng from = LatLng(locationBloc.state.lastKnownLocation!.latitude, locationBloc.state.lastKnownLocation!.longitude);
-      LatLng to = LatLng(travelInfo.fromLat, travelInfo.fromLng);
+      if (travelInfo!.status == 'accepted') {
+        startTravel();
+      } else if (travelInfo!.status == 'started') {
+        finishTravel();
+      }
+    } else {
+      debugPrint("ERROR -> travelinfo  = null");
+    }
+  }
+
+  void startTimer(){
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) { 
+      seconds = timer.tick;
+      refresh();
+    });
+  }
+  void startTravel() async {
+    if (_distanceBetween > 300) {
+      Snackbar.showSnackbar(context, 'DEBES ESTAR CERCA A LA POSICION DEL CLIENTE');
+    } else {
+      Map<String, String> data = {
+        'status': 'started'
+      };
+      await TravelInfoService.update(data, _idTravel);
+      travelInfo!.status = 'started';
+      currentStatus = 'FINALIZAR VIAJE';
+      colorStatus = Colors.red;
+      polylines = {};
+      points = [];
+      markers.remove(markers['from']);
+      addSimpleMarker(
+          'to',
+          travelInfo!.toLat,
+          travelInfo!.toLng,
+          'Destino',
+          '',
+          toMarker
+      );
+      LatLng from =  locationBloc.state.lastKnownLocation!;
+      LatLng to =  LatLng(travelInfo!.toLat, travelInfo!.toLng);
+      setPolylines(from, to);
+      startTimer();
+    }
+    refresh();
+  }
+
+  void finishTravel() async {
+    if (travelInfo != null) {
+      Map<String, String> data = {
+        'status': 'finished'
+      };
+      await TravelInfoService.update(data, _idTravel);
+      travelInfo!.status = 'finished';
+      refresh();      
+    }
+  }
+
+
+  void getTravelInfo() async{
+    travelInfo = await TravelInfoService.getbyId(_idTravel);
+    debugPrint('NISE--------------------$travelInfo');
+    if (travelInfo != null) {
+      LatLng from = locationBloc.state.lastKnownLocation!;
+      LatLng to = LatLng(travelInfo!.fromLat, travelInfo!.fromLng);
       setPolylines(from, to);
       refresh();
     }
@@ -100,6 +174,7 @@ class DriverTravelMapController{
     //   driver = Driver.fromJson(document.data());
     // });
   }
+
 
   Future<void> setPolylines(LatLng from, LatLng to ) async {
     PointLatLng pointFromLatLng = PointLatLng(from.latitude, from.longitude);
@@ -122,13 +197,15 @@ class DriverTravelMapController{
       width: 6
     );
     polylines.add(polyline);
-    mapBloc.add(onUpdatePolylinesEvent({"ruta":polyline}));
+    // mapBloc.add(onUpdatePolylinesEvent({"ruta":polyline}));
     addSimpleMarker('from',to.latitude, to.longitude, 'Recoger aqui', '', fromMarker);
     // addMarker('to', mapBloc.state.toLatLng!.latitude, mapBloc.state.toLatLng!.longitude, 'Destino', '', toMarker);
     refresh();
   }
   
   void dispose() {
+    timer.cancel();
+    _timer.cancel();
     // _positionStream?.cancel();
     // _statusSuscription?.cancel();
     // _driverInfoSuscription?.cancel();
@@ -139,118 +216,6 @@ class DriverTravelMapController{
     // _mapController.complete(controller);
   }
 
-  void saveLocation() async {
-    // await _geofireProvider.create(
-    //     _authProvider.getUser().uid,
-    //     _position.latitude,
-    //     _position.longitude
-    // );
-    // _progressDialog.hide();
-  }
-
-  void updateLocation() async  {
-    // try {
-    //   await _determinePosition();
-    //   _position = await Geolocator.getLastKnownPosition();
-    //   centerPosition();
-    //   saveLocation();
-
-    //   addMarker(
-    //       'driver',
-    //       _position.latitude,
-    //       _position.longitude,
-    //       'Tu posicion',
-    //       '',
-    //       markerDriver
-    //   );
-    //   refresh();
-
-    //   _positionStream = Geolocator.getPositionStream(
-    //       desiredAccuracy: LocationAccuracy.best,
-    //       distanceFilter: 1
-    //   ).listen((Position position) {
-    //     _position = position;
-    //     addMarker(
-    //         'driver',
-    //         _position.latitude,
-    //         _position.longitude,
-    //         'Tu posicion',
-    //         '',
-    //         markerDriver
-    //     );
-    //     animateCameraToPosition(_position.latitude, _position.longitude);
-    //     saveLocation();
-    //     refresh();
-    //   });
-
-    // } catch(error) {
-    //   print('Error en la localizacion: $error');
-    // }
-  }
-
-  void centerPosition() {
-    // if (_position != null) {
-    //   animateCameraToPosition(_position.latitude, _position.longitude);
-    // }
-    // else {
-    //   SnackBar.showSnackbar(context, 'Activa el GPS para obtener la posicion');
-    // }
-  }
-
-  void checkGPS() async {
-    bool isLocationEnabled = await Geolocator.isLocationServiceEnabled();
-    if (isLocationEnabled) {
-      print('GPS ACTIVADO');
-      updateLocation();
-    }
-    else {
-      print('GPS DESACTIVADO');
-      // bool locationGPS = await location.Location().requestService();
-      // if (locationGPS) {
-      //   updateLocation();
-      //   print('ACTIVO EL GPS');
-      // }
-    }
-
-  }
-
-  Future<Position> _determinePosition() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      return Future.error('Location services are disabled.');
-    }
-
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.deniedForever) {
-      return Future.error(
-          'Location permissions are permantly denied, we cannot request permissions.');
-    }
-
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission != LocationPermission.whileInUse &&
-          permission != LocationPermission.always) {
-        return Future.error(
-            'Location permissions are denied (actual value: $permission).');
-      }
-    }
-
-    return await Geolocator.getCurrentPosition();
-  }
-
-  Future animateCameraToPosition(double latitude, double longitude) async {
-    GoogleMapController controller = await _mapController.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(
-        CameraPosition(
-            bearing: 0,
-            target: LatLng(latitude, longitude),
-            zoom: 17
-        )
-    ));
-  }
 
   Future<BitmapDescriptor> createMarkerImageFromAsset(String path) async {
     ImageConfiguration configuration = const ImageConfiguration();
@@ -303,6 +268,38 @@ class DriverTravelMapController{
 
     markers[id] = marker;
 
+  }
+  
+
+  void initTimer() async{
+    try {
+      timer = Timer.periodic(const Duration(seconds: 4), (timer) async {
+        if (travelInfo != null) {
+          if (travelInfo!.status == 'started') {
+            if (locationBloc.state.myLocationHistory.isNotEmpty) {
+              final n = locationBloc.state.myLocationHistory.length;
+              final punto = locationBloc.state.myLocationHistory[n-1];
+              mt = mt + Geolocator.distanceBetween(
+                locationBloc.state.lastKnownLocation!.latitude,
+                locationBloc.state.lastKnownLocation!.longitude,
+                punto.latitude,
+                punto.longitude,
+              );
+              debugPrint(mt.toString());
+              km = mt / 1000;
+            }
+          }
+          LatLng from =  locationBloc.state.lastKnownLocation!;
+          LatLng to =  LatLng(travelInfo!.fromLat, travelInfo!.fromLng);
+          isCloseToPickupPosition(from, to);  
+          refresh();
+        }
+        debugPrint(mt.toString());
+
+      });
+    } catch (error) {
+      debugPrint('TRY ERROR <DriverTravelMap> startTimer: $error');
+    }
   }
 
 }

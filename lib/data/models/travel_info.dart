@@ -58,4 +58,10 @@ class TravelInfo {
         "toLng": toLng.toString(),
         "price": price.toString(),
     };
+
+    @override
+  String toString() {
+    return 'idCode: $idCode, status: $status, idDriver: $idDriver, from: $from, to: $to, idTravelHistory: $idTravelHistory, fromLat: $fromLat, fromLng: $fromLng, toLat: $toLat, toLng: $toLng, price: $price ';
+    
+  }
 }
