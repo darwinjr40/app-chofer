@@ -111,7 +111,26 @@ class DriverTravelMapController{
       debugPrint("ERROR -> travelinfo  = null");
     }
   }
-
+  Future<double> calculatePrice() async {
+    if (seconds < 60) {
+      seconds = 60;
+    }
+    if (km == 0) {
+      km = 0.1;
+    }
+    debugPrint("=======MIN TOTALES==============");
+    int min = seconds ~/ 60;
+    debugPrint(min.toString());
+    debugPrint("=======KM TOTALES==============");
+    debugPrint(km.toString());
+    double priceMin = min * Price.min;
+    double pricetk = km * Price.km;
+    double total = priceMin + pricetk;
+    if (total < Price.minValue) {  
+      total =  Price.minValue;      
+    }
+    return total;
+  }
   void startTimer(){
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) { 
       seconds = timer.tick;
@@ -149,19 +168,27 @@ class DriverTravelMapController{
   }
 
   void finishTravel() async {
+    _timer.cancel();
+    double total = await calculatePrice();
     if (travelInfo != null) {
       Map<String, String> data = {
         'status': 'finished'
       };
       await TravelInfoService.update(data, _idTravel);
       travelInfo!.status = 'finished';
+      // Navigator.pushNamedAndRemoveUntil(context, "driver/travel/calification", (route) => false);
+      Navigator.pushNamed(context, "driver/travel/calification");
       refresh();      
     }
   }
 
 
-  void getTravelInfo() async{
-    travelInfo = await TravelInfoService.getbyId(_idTravel);
+  void getTravelInfo() async{        
+    int n = 3;
+    while(n > 0 && travelInfo == null){
+      travelInfo = await TravelInfoService.getbyId(_idTravel);
+      n = n - 1;
+    }
     debugPrint('NISE--------------------$travelInfo');
     if (travelInfo != null) {
       LatLng from = locationBloc.state.lastKnownLocation!;

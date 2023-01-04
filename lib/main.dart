@@ -66,6 +66,7 @@ class _MyAppState extends State<MyApp> {
       PushNotificationService.messagesStream.listen((message) { 
         // print('MyApp: $message');
         navigatorKey.currentState?.pushNamed('drive/travel/request', arguments: message);
+        // navigatorKey.currentState?.pushNamedAndRemoveUntil('drive/travel/request', (route) => false, arguments: message, );
         final snackBar = SnackBar(content: Text(message.toString()));
         messengerKey.currentState?.showSnackBar(snackBar);
       });

@@ -178,6 +178,7 @@ class _LoginFormState extends State<_LoginForm> {
 
                     if (errorMessage == null) {
                       Navigator.pushReplacementNamed(context, 'selectVehicle');
+                      // Navigator.pushNamedAndRemoveUntil(context, 'selectVehicle',  (route) => false);
                     } else {
                       mostrarAlerta(context, 'Login incorrecto', errorMessage);
                       loginForm.isLoading = false;

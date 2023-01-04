@@ -5,7 +5,7 @@ import 'package:micros_app/presentation/screens/screens.dart';
 import 'package:micros_app/presentation/views/status_view.dart';
 
 class AppRoutes {
-  // static const initialRoute = 'drive/travel/map';
+  // static const initialRoute = 'driver/travel/calification';
 
   static const initialRoute = 'login';
   static final menuOptions = <MenuOption>[
@@ -53,6 +53,7 @@ class AppRoutes {
     appRoutes.addAll({'status': (BuildContext context) => const StatusView()});
     appRoutes.addAll({'drive/travel/request': (BuildContext context) => const DriverTravelRequestPage()});
     appRoutes.addAll({'drive/travel/map': (BuildContext context) => const DriverTravelMapPage()});
+    appRoutes.addAll({'driver/travel/calification': (BuildContext context) => const DriverTravelCalificationPage()});
 
     return appRoutes;
   }

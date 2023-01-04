@@ -46,8 +46,10 @@ class SelectBusScreen extends StatelessWidget {
             // print(busServices.selectedBus.id.toString()),
             vehicleServices.loadVehicle(busServices.selectedBus.id),
             if (vehicleServices.isLoading) const LoadingScreen(),
-            Navigator.pushNamed(context, 'selectVehicle',
-                arguments: busServices.selectedBus.id),
+            Navigator.pushNamed(context, 'selectVehicle',  arguments: busServices.selectedBus.id),
+            // Navigator.pushNamedAndRemoveUntil(context, 'selectVehicle', (route) => false ,arguments: busServices.selectedBus.id),
+
+            
           },
         ),
       ),

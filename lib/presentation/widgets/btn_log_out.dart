@@ -39,6 +39,8 @@ class BtnLogOut extends StatelessWidget {
               locationBloc.add(OnStopFollowingUser());
               // stopFollowingUser
               Navigator.pushReplacementNamed(context, 'login');
+              // Navigator.pushNamedAndRemoveUntil(context, 'login', (route) => false);      
+              
               debugPrint('GetContainerfalse1-------------');
             }
           },
@@ -98,6 +100,8 @@ void showLoguotDialog(
                   locationBloc.add(OnStopFollowingUser());
                   service.loguot();
                   Navigator.pushReplacementNamed(context, 'login');
+                  // Navigator.pushNamedAndRemoveUntil(context, 'login', (route) => false);      
+
                 },
                 child: const Text('ENVIAR'),
                 style: ButtonStyle(

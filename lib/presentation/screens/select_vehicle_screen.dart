@@ -22,6 +22,8 @@ class SelectVehicleScreen extends StatelessWidget {
             icon: const Icon(Icons.logout_outlined),
             onPressed: () {
               Navigator.pushReplacementNamed(context, 'login');
+            //  Navigator.pushNamedAndRemoveUntil(context, 'login', (route) => false );
+
               // showLoguotDialog(context, service);
             },
           ),
@@ -66,6 +68,8 @@ class ListVehicles extends StatelessWidget {
           service.vehiculo = service.listaVehiculos[index];
           service.loadRutas();
           Navigator.pushReplacementNamed(context, 'loading');
+          // Navigator.pushNamedAndRemoveUntil(context, 'loading', (route) => false );
+
         },
       ),
     );

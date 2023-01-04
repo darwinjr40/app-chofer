@@ -74,8 +74,8 @@ class DriverTravelRequestController {
       _timer.cancel();
       TravelInfoService.update(data, idClient);
       // Navigator.pushNamedAndRemoveUntil(context, 'driver/travel/map', (route) => false, arguments: idClient);      
-      // Navigator.pushNamed(context,'drive/travel/map', arguments: idClient );
-      Navigator.pushReplacementNamed(context,'drive/travel/map', arguments: idClient );
+      Navigator.pushNamed(context,'drive/travel/map', arguments: idClient );
+      // Navigator.pushReplacementNamed(context,'drive/travel/map', arguments: idClient );
 
     } catch (error) {
       debugPrint('ERROR catch <DriverTravelRequestController> acceptTravel ${error.toString()}');
@@ -89,9 +89,10 @@ class DriverTravelRequestController {
       };      
       _timer.cancel();
       TravelInfoService.update(data, idClient);
-      Navigator.pushNamedAndRemoveUntil(context, 'loading', (route) => false);      
+      // Navigator.pushReplacementNamed(context, 'loading');      
       // Navigator.pushNamedAndRemoveUntil(context, 'driver/travel/map', (route) => false);      
       // Navigator.pushNamed(context,'drive/travel/map' );
+      Navigator.pop(context );
     } catch (error) {
       debugPrint('ERROR catch <DriverTravelRequestController> cancelTravel ${error.toString()}');
     }

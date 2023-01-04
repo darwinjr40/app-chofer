@@ -47,6 +47,7 @@ dev_dependencies:
   flutter_custom_clippers: ^2.1.0
   flutter_lints: ^2.0.1
   flutter_polyline_points: ^1.0.0
+  flutter_rating_bar: ^4.0.1
   flutter_test:
     sdk: flutter
   http: ^0.13.4
