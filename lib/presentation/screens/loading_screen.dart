@@ -24,8 +24,8 @@ class LoadingScreen extends StatelessWidget {
         // final currentLong = locationBloc.state.lastKnownLocation!.longitude;
         locationBloc.add(const OnUpdateLocationHistoryEvent([]));
       }
-      mapbloc.add(OnAddPolylinesEvent(service.vehiculo.routes!));
-      debugPrint('se actualizo routas--Loading');
+      // mapbloc.add(OnAddPolylinesEvent(service.vehiculo.routes!));
+      // debugPrint('se actualizo routas--Loading');
     }
     return Scaffold(body: BlocBuilder<GpsBloc, GpsState>(
       builder: (context, state) {

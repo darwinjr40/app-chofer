@@ -12,6 +12,7 @@ class MapState extends Equatable {
   // * el nombre de la ruta y el polyline sea la linea a dibujar
 
   final Map<String, Polyline> polylines;
+  final Map<String, Marker> markers;
 
   const MapState({
     this.isMapInitialized = false,
@@ -19,8 +20,10 @@ class MapState extends Equatable {
     this.showMyRoute = true,
     this.showVehicleRoute = true,
     Map<String, Polyline>? polylines,
+    Map<String, Marker>? markers,
     this.driver
-  }) : polylines = polylines ?? const {};
+  }) : polylines = polylines ?? const {},
+       markers = markers ?? const {};
 
   MapState copyWith({
     bool? isMapInitialized,
@@ -28,6 +31,7 @@ class MapState extends Equatable {
     bool? showMyRoute,
     bool? showVehicleRoute,
     Map<String, Polyline>? polylines,
+    Map<String, Marker>? markers,
     Driver? driver,
   }) =>
       MapState(
@@ -36,6 +40,7 @@ class MapState extends Equatable {
         showMyRoute: showMyRoute ?? this.showMyRoute,
         showVehicleRoute: showVehicleRoute ?? this.showVehicleRoute,
         polylines: polylines ?? this.polylines,
+        markers: markers ?? this.markers,
         driver: driver ?? this.driver,
       );
 
@@ -47,5 +52,6 @@ class MapState extends Equatable {
         showVehicleRoute,
         showMyRoute,
         driver,
+        markers,
       ];
 }

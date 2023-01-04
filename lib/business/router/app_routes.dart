@@ -5,7 +5,7 @@ import 'package:micros_app/presentation/screens/screens.dart';
 import 'package:micros_app/presentation/views/status_view.dart';
 
 class AppRoutes {
-  // static const initialRoute = 'checking';
+  // static const initialRoute = 'drive/travel/map';
 
   static const initialRoute = 'login';
   static final menuOptions = <MenuOption>[

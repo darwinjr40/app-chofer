@@ -53,14 +53,14 @@ class _MapScreenState extends State<MapScreen> {
           return BlocBuilder<MapBloc, MapState>(
             builder: (context, mapState) {
               Map<String, Polyline> polylines = Map.from(mapState.polylines);
-              if (!mapState.showMyRoute) {
+              if (mapState.showMyRoute) {
                 polylines.removeWhere((key, value) => key == 'myRoute');
               }
-              if (mapState.showVehicleRoute) {
-                polylines.removeWhere((key, value) => key == 'vuelta');
-              } else {
-                polylines.removeWhere((key, value) => key == 'ida');
-              }
+              // if (mapState.showVehicleRoute) {
+              //   polylines.removeWhere((key, value) => key == 'vuelta');
+              // } else {
+              //   polylines.removeWhere((key, value) => key == 'ida');
+              // }
 
               return SingleChildScrollView(
                 child: Stack(
@@ -68,6 +68,7 @@ class _MapScreenState extends State<MapScreen> {
                     MapView(
                       initialLocation: locationState.lastKnownLocation!,
                       polylines: polylines.values.toSet(),
+                      markers: mapState.markers.values.toSet(),
                     ),
                     const Positioned(
                       bottom: 24,
@@ -105,7 +106,7 @@ class _MapScreenState extends State<MapScreen> {
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: const [
-              BtnChangeRoute(),
+              // BtnChangeRoute(),
               BtnToogleUserRoute(),
               BtnCurrentLocation(),
             ],

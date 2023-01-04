@@ -54,4 +54,24 @@ class TravelInfoService {
     }    
   }
 
+
+  static Future<TravelInfo?> getbyId(String idClient) async {
+    TravelInfo? travelInfo;
+    try {
+      final url = '${Env.baseUrl}travel-info/get/$idClient';
+      final resp = await http.get(
+        Uri.parse(url),
+        headers: {'Accept' : 'application/json'},
+      );
+      if (resp.statusCode == 200) {
+        travelInfo = TravelInfo.fromJson(resp.body);
+      } else {
+        debugPrint('ERROR <TravelInfoService>getbyId: ${resp.body}');
+      }           
+    } catch(error) {
+      debugPrint('ERROR TRY CATCH <TravelInfoService>getbyId: ${error.toString()}');
+    }    
+      return travelInfo;
+  }
+
 }

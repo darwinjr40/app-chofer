@@ -71,9 +71,10 @@ class DriverTravelRequestController {
         'idDriver': mapBloc.state.driver!.id.toString(),
         'status': 'accepted'
       };      
+      _timer.cancel();
       TravelInfoService.update(data, idClient);
-      // Navigator.pushNamedAndRemoveUntil(context, 'driver/travel/map', (route) => false);      
-      Navigator.pushNamed(context,'drive/travel/map' );
+      // Navigator.pushNamedAndRemoveUntil(context, 'driver/travel/map', (route) => false, arguments: idClient);      
+      Navigator.pushNamed(context,'drive/travel/map', arguments: idClient );
 
     } catch (error) {
       debugPrint('ERROR catch <DriverTravelRequestController> acceptTravel ${error.toString()}');
@@ -85,6 +86,7 @@ class DriverTravelRequestController {
       Map<String, String> data = {
         'status': 'no_accepted'
       };      
+      _timer.cancel();
       TravelInfoService.update(data, idClient);
       Navigator.pushNamedAndRemoveUntil(context, 'loading', (route) => false);      
       // Navigator.pushNamedAndRemoveUntil(context, 'driver/travel/map', (route) => false);      

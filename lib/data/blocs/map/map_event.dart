@@ -43,3 +43,16 @@ class OnUpdateDriverEvent extends MapEvent {
   final Driver driverAux;
   const OnUpdateDriverEvent(this.driverAux);
 }
+
+
+class onUpdatePolylinesEvent extends MapEvent {
+  final Map<String, Polyline> polylinesAux;
+
+  const onUpdatePolylinesEvent(this.polylinesAux);
+}
+
+class OnUpdateMarkesEvent extends MapEvent {
+  final Map<String, Marker> markersAux;
+
+  const OnUpdateMarkesEvent(this.markersAux);
+}

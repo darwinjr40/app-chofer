@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
+import 'package:micros_app/env.dart';
 // import 'package:uber_clone_flutter_udemy/src/utils/colors.dart' as utils;
 
 
@@ -27,6 +28,10 @@ class BtnSolicit extends StatelessWidget {
       onPressed: () {
         onPressed!();
       },
+      style: ElevatedButton.styleFrom(
+        primary: color, // background
+        onPrimary: textColor, // foreground
+      ),
       // color: color,
       // textColor: textColor,
       child: Stack(
@@ -51,11 +56,11 @@ class BtnSolicit extends StatelessWidget {
               height: 50,
               child: CircleAvatar(
                 radius: 15,
+                backgroundColor: const Color.fromARGB(221, 142, 139, 139),
                 child: Icon(
                   icon,
                   color: const Color(0xFF222327),
                 ),
-                backgroundColor: Colors.black,
               ),
             ),
           )

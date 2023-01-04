@@ -38,7 +38,8 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     on<OnAddPolylinesEvent>(_onAddPolylines);
 
     on<OnUpdateDriverEvent>((event, emit) => emit(state.copyWith(driver: event.driverAux)));
-
+    on<onUpdatePolylinesEvent>( (event, emit) => emit(state.copyWith(polylines: event.polylinesAux)));
+    on<OnUpdateMarkesEvent>((event, emit) => emit(state.copyWith(markers: event.markersAux)));
     locationStateSubscription = locationBloc.stream.listen((locationState) {
       if (locationState.lastKnownLocation != null) {
         add(UpdateUserPolylineEvent(locationState.myLocationHistory));
