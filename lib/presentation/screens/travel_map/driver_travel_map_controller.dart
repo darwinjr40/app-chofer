@@ -58,12 +58,15 @@ class DriverTravelMapController{
   late double _distanceBetween;
   String currentStatus = 'INICIAR VIAJE';
   Color colorStatus = Colors.amber;
+
+
   //constructor
   DriverTravelMapController(){
     polylines = {};
     points = [];
     _idTravel ='';
     isStartTravel = false;
+    travelInfo = null;
   }
 
   Future init(BuildContext context, Function refresh) async {
@@ -188,6 +191,7 @@ class DriverTravelMapController{
     while(n > 0 && travelInfo == null){
       travelInfo = await TravelInfoService.getbyId(_idTravel);
       n = n - 1;
+      debugPrint('getTravelInfo--------------------$n');
     }
     debugPrint('NISE--------------------$travelInfo');
     if (travelInfo != null) {

@@ -55,6 +55,7 @@ class DriverTravelRequestController {
   void dispose(){
     _timer.cancel();
   }
+  
   void  startTimer(){
     _timer = Timer.periodic(const Duration(seconds: 1),  (timer){
       seconds =  seconds - 1; 
