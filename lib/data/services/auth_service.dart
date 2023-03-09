@@ -21,7 +21,7 @@ class AuthService extends ChangeNotifier {
   
 
   Future<String?> login(String email, String password) async {
-    const url = Env.baseUrl + 'auth/login';
+    const url = '${Env.baseUrl}auth/login';
     final resp = await http.post(Uri.parse(url),
         body: ({
           'email': email,
